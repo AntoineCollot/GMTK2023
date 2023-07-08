@@ -18,8 +18,11 @@ public class CharacterAnimations : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         PlayerDash dash = GetComponentInParent<PlayerDash>();
         animable = GetComponentInParent<IAnimable>();
-        if (dash!=null)
+        if (dash != null)
+        {
             dash.onDash.AddListener(OnDash);
+            dash.onDashEnd.AddListener(OnDashEnd);
+        }
 
         directionHash = Animator.StringToHash("Direction");
         moveSpeedHash = Animator.StringToHash("MoveSpeed");
@@ -52,8 +55,15 @@ public class CharacterAnimations : MonoBehaviour
 
     void OnDash()
     {
-
+        anim.SetBool("IsDashing", true);
     }
+
+    void OnDashEnd()
+    {
+        anim.SetBool("IsDashing", false);
+    }
+
+
     public void StartCast()
     {
         anim.SetTrigger("StartCast");

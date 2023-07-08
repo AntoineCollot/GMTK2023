@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8f1df50c3b4df824c96b966cdb8ef6ca
+guid: ef21dd8e1ff76584981df1ee78f0e0f8
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,49 +123,49 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterIdle_F_0
+      name: CharacterDash_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 30
         height: 30
-      alignment: 9
+      alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2486b79e1e7030442a14ce8b21168b77
-      internalID: -183797205
+      spriteID: 2f3619ad2abe9bb49ae9dec1ae5a6615
+      internalID: 498491783
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterIdle_F_1
+      name: CharacterDash_1
       rect:
         serializedVersion: 2
         x: 30
         y: 0
         width: 30
         height: 30
-      alignment: 9
+      alignment: 7
       pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 412b0228a7e84d242a33a2601ecfc96a
-      internalID: -2029247467
+      spriteID: 5e5e1aa018564d04a838476568cd3ff1
+      internalID: -1632442076
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterIdle_F_2
+      name: CharacterDash_2
       rect:
         serializedVersion: 2
         x: 60
@@ -173,35 +173,14 @@ TextureImporter:
         width: 30
         height: 30
       alignment: 9
-      pivot: {x: 0.5, y: 0}
+      pivot: {x: 0.5, y: 0.4}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: eb3f69c4f607faa4ab27d6c4c342656b
-      internalID: 654222719
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharacterIdle_F_3
-      rect:
-        serializedVersion: 2
-        x: 90
-        y: 0
-        width: 30
-        height: 30
-      alignment: 9
-      pivot: {x: 0.5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2fe739232f1670e45b2ae18c7b98f9f7
-      internalID: -696780994
+      spriteID: 4ca15657a4ea22d4286fc08cdad483b1
+      internalID: 187295609
       vertices: []
       indices: 
       edges: []
@@ -209,7 +188,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: e115dcc896437f34d923b7c16c5fab1e
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -217,10 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CharacterIdle_F_0: -183797205
-      CharacterIdle_F_1: -2029247467
-      CharacterIdle_F_2: 654222719
-      CharacterIdle_F_3: -696780994
+      CharacterDash_0: 498491783
+      CharacterDash_1: -1632442076
+      CharacterDash_2: 187295609
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
