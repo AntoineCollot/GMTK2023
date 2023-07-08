@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable
     private void FixedUpdate()
     {
         if (lockMovementState.IsOn)
-            return;
+            desiredVelocity = Vector2.zero;
 
         Vector2 velocity = body.velocity;
 

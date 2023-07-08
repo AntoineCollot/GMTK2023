@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSpells : MonoBehaviour
 {
-    public SpellData[] spells;
     const int SPELL_COUNT = 3;
+    public SpellData[] spells;
+    bool[] hasSpell;
+    float[] spellUsedTime;
 
-    public float[] spellUsedTime;
     Direction lastInputDirection = Direction.Up;
+
+    CompositeState isCastingState;
 
     Health health;
     InputMap inputMap;
@@ -16,11 +20,17 @@ public class PlayerSpells : MonoBehaviour
     private void Awake()
     {
         inputMap = new InputMap();
+        isCastingState = new CompositeState();
         inputMap.Gameplay.Spell1.performed += Spell1Performed;
         inputMap.Gameplay.Spell2.performed += Spell2Performed;
         inputMap.Gameplay.Spell3.performed += Spell3Performed;
 
         spellUsedTime = new float[SPELL_COUNT];
+    }
+
+    private void Start()
+    {
+        PlayerMovement.Instance.lockMovementState.Add(isCastingState);
     }
 
     private void Spell1Performed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
@@ -58,6 +68,9 @@ public class PlayerSpells : MonoBehaviour
 
     public void TryUseSpell(int id)
     {
+        if (!HasSpell(id))
+            return;
+
         if (!CanUseSpell(id))
             return;
 
@@ -68,34 +81,11 @@ public class PlayerSpells : MonoBehaviour
     public void CastSpell(in SpellData data)
     {
         Vector2 direction = lastInputDirection.ToVector2();
-        SpellGenerator.Instance.CastSpell(transform.position, Source.Player, direction, in data, OnHitCallback);
+        SpellGenerator.Instance.CastSpell(transform.position, Source.Player, direction, in data, OnHitCallback, isCastingState);
 
         if (data.movespeedBonus > 0)
             PlayerMovement.Instance.GainMoveSpeedBonus(data.MoveSpeedBonusMult);
-
-        if (data.repeat > 0)
-            StartCoroutine(RepeatSpell(data, direction));
     }
-
-    IEnumerator RepeatSpell(SpellData data, Vector2 direction)
-    {
-        for (int i = 0; i < data.repeat; i++)
-        {
-            switch (data.type)
-            {
-                case SpellType.Cac:
-                case SpellType.Projectile:
-                case SpellType.Laser:
-                case SpellType.AOE:
-                default:
-                    yield return new WaitForSeconds(0.3f);
-                    break;
-            }
-
-            SpellGenerator.Instance.CastSpell(transform.position, Source.Player, direction,in data, OnHitCallback);
-        }
-    }
-
     void OnHitCallback(Health hitHealth, SpellData data)
     {
         float damages = data.damages;
@@ -115,5 +105,21 @@ public class PlayerSpells : MonoBehaviour
     public bool CanUseSpell(int id)
     {
         return SpellCurrentCooldown01(id) <= 0;
+    }
+
+    public bool HasSpell(int id)
+    {
+        return hasSpell[id];
+    }
+
+    public void AddSpell(SpellData data, int id)
+    {
+        hasSpell[id] = true;
+        spells[id] = data;
+    }
+
+    public void ApplyUpgrade(int toSpellID, in SpellUpgradeData upgradeData)
+    {
+        spells[toSpellID].ApplyUpgrades(upgradeData);
     }
 }

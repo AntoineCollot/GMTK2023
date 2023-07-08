@@ -32,6 +32,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
     public List<SpellData> spells = new List<SpellData>();
     int currentSpell;
     float outOfCooldownTime;
+    CompositeState isCastingState;
 
     Vector3[] corners;
     Health health;
@@ -42,6 +43,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
         path = new NavMeshPath();
         corners = new Vector3[10];
 
+        isCastingState = new CompositeState();
         health = GetComponent<Health>();
         body = GetComponent<Rigidbody2D>();
         player = PlayerMovement.Instance.transform;
@@ -98,6 +100,8 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
                 break;
             case State.Casting:
                 targetPosition = transform.position;
+                if (!isCastingState.IsOn)
+                    state = State.WaitForCooldown;
                 break;
             case State.WaitForCooldown:
                 WaitForCooldownBehaviour();
@@ -197,11 +201,11 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
 
         Vector2 direction = player.position - transform.position;
         direction.Normalize();
-        SpellInstance spell = SpellGenerator.Instance.CastSpell(transform.position, Source.Enemy, direction, in data, OnHitCallback);
+        SpellGenerator.Instance.CastSpell(transform.position, Source.Enemy, direction, in data, OnHitCallback, isCastingState);
+        state = State.Casting;
 
         if (data.movespeedBonus > 0)
             GainMoveSpeedBonus(data.MoveSpeedBonusMult);
-        StartCoroutine(Casting(spell));
 
         currentSpell++;
     }
@@ -212,7 +216,6 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
         yield return new WaitForSeconds(spell.AnticipationTime);
         //The spell is performing
         yield return new WaitForSeconds(AFTER_CASTING_MOVEMENT_COOLDOWN);
-        state = State.WaitForCooldown;
     }
 
     void OnHitCallback(Health hitHealth, SpellData data)

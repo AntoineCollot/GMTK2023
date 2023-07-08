@@ -15,21 +15,53 @@ public struct SpellData
     public float MoveSpeedBonusMult => Curves.QuadEaseOut(MOVE_SPEED_BONUS_MIN, MOVE_SPEED_BONUS_MAX, movespeedBonus);
     public float Cooldown => baseCooldown * Mathf.Max(0.25f, (1 - cooldownReduction * COOLDOWN_REDUCTION_RATIO));
 
-    //Base
+   [Header("Base (Not Upgradable)")]
     public SpellType type;
     public float baseCooldown;
     public float baseProjectileSpeed;
 
-    //Char Buff
+    [Header("Character buff")]
     public int heal;
     public int movespeedBonus;
 
-    //Char Side
+    [Header("Effects on character")]
     public int repeat;
     public int discharge;
     public int cooldownReduction;
 
-    //Spell Side
+    [Header("Effects on spell")]
+    public int damages;
+    public int size;
+    public int knockback;
+
+    public void ApplyUpgrades(in SpellUpgradeData data)
+    {
+        heal.AddOrMultiply(data.heal);
+        movespeedBonus.AddOrMultiply(data.movespeedBonus);
+
+        repeat.AddOrMultiply(data.repeat);
+        discharge.AddOrMultiply(data.discharge);
+        cooldownReduction.AddOrMultiply(data.cooldownReduction);
+
+        damages.AddOrMultiply(data.damages);
+        size.AddOrMultiply(data.size);
+        knockback.AddOrMultiply(data.knockback);
+    }
+}
+
+[System.Serializable]
+public struct SpellUpgradeData
+{
+    [Header("Character buff")]
+    public int heal;
+    public int movespeedBonus;
+
+    [Header("Effects on character")]
+    public int repeat;
+    public int discharge;
+    public int cooldownReduction;
+
+    [Header("Effects on spell")]
     public int damages;
     public int size;
     public int knockback;
