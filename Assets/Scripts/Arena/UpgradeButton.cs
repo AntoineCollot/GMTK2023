@@ -6,6 +6,7 @@ public class UpgradeButton : MonoBehaviour
 {
     public bool isSpell;
     public int index;
-    public SpellData spellData;
+    public int indexAvailable;
+    public ScriptableSpell spellData;
     public SpellUpgradeData upgradeData;
 }

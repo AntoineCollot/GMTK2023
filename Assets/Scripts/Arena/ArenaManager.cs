@@ -34,6 +34,7 @@ public class ArenaManager : MonoBehaviour
     [Header("Upgrades")]
     public List<SpellData> spells;
     public List<SpellData> upgrades;
+    private bool firstTime = true;
 
     [Header("FXs")]
     public Transform fxFolder;
@@ -85,8 +86,7 @@ public class ArenaManager : MonoBehaviour
     {
         fakePlayer.SetActive(true);
         fakePlayer.transform.position = playerSpawn.position;
-        GameObject trueOne = Instantiate(player, null);
-        trueOne.SetActive(false);
+        player.SetActive(false);
 
         yield return new WaitForSeconds(1); // temps d'attente, le temps que le joueur comprenne son environement
         
@@ -109,11 +109,11 @@ public class ArenaManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         // remplace le faux joueur par le vrai
-        trueOne.transform.position = fakePlayer.transform.position;
-        trueOne.SetActive(trueOne);
+        player.transform.position = fakePlayer.transform.position;
+        player.SetActive(true);
         fakePlayer.SetActive(false);
 
-        SpawnWave();
+        GetComponent<UIManager>().SetTooltips();
     }
 
     public IEnumerator NextWave()
@@ -174,7 +174,7 @@ public class ArenaManager : MonoBehaviour
         {
             if (!isBoss) // si l'arene terminé n'est pas la salle du boss
             {
-                EndWave();
+                StartCoroutine(EndWave());
             } else // si c'est la salle du boss
             {
                 EndBoss();
@@ -182,12 +182,14 @@ public class ArenaManager : MonoBehaviour
         }
     }
 
-    void EndWave()
+    IEnumerator EndWave()
     {
-        Debug.Log("EndWave");
-        bossDoor.SetActive(true);
-        // ouvre la porte
-        // offre 3 améliorations
+        // FX
+        yield return new WaitForSeconds(2);
+        if (!firstTime) 
+            bossDoor.SetActive(true); // ouvre la porte
+
+        GetComponent<UIManager>().SetTooltips(); // offre 3 améliorations
     }
 
     void EndBoss()
