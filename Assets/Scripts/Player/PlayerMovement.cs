@@ -92,4 +92,9 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable,
         lastMoveSpeedBonusTime = Time.time;
         moveSpeedBonusMult = mult;
     }
+
+    public void SetAnimationDirection(Direction direction)
+    {
+        animationDirection = direction;
+    }
 }
