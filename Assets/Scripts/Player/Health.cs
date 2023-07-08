@@ -7,7 +7,7 @@ public class Health : MonoBehaviour
 {
     public float health;
     Material instancedMaterial;
-    bool isDead;
+    public bool isDead { get; private set; }
 
     public UnityEvent onDie = new UnityEvent();
 
