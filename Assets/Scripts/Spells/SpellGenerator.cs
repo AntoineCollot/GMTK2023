@@ -9,6 +9,11 @@ public class SpellGenerator : MonoBehaviour
     public SpellInstance projectileSpellPrefab;
     public SpellInstance laserSpellPrefab;
 
+    [Header("Discharge")]
+    public Projectile dischargeProjectilePrefab;
+    public float minDischargeKnockback = 3;
+    public float maxDischargeKnockback = 30;
+
     public static SpellGenerator Instance;
 
     private void Awake()
@@ -73,6 +78,9 @@ public class SpellGenerator : MonoBehaviour
 
         newSpell.transform.position = position;
         newSpell.Init(in data, source, direction, hitCallback, isCastingState);
+
+        if(data.discharge>0)
+            StartCoroutine(SpellDischarge(position, source, direction, data, hitCallback));
     }
 
     void GetLaserRepeatDirections(int repeat, int id, Vector2 direction, out Vector2 leftDirection, out Vector2 rightDirection)
@@ -81,5 +89,26 @@ public class SpellGenerator : MonoBehaviour
 
         leftDirection = Quaternion.AngleAxis(angleInterval * (id+1), Vector3.forward) * direction;
         rightDirection = Quaternion.AngleAxis(angleInterval * (id+1), Vector3.back) * direction;
+    }
+
+    IEnumerator SpellDischarge(Vector2 position, Source source, Vector2 direction, SpellData data, Action<Health, SpellData> hitCallback)
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        float knockback = 0;
+        if(data.knockback > 0)
+        {
+            knockback = Curves.QuadEaseOut(minDischargeKnockback, maxDischargeKnockback, data.knockback);
+        }
+
+        int dischargeProjectiles = data.discharge + 3;
+        float angleInterval = 360.0f / dischargeProjectiles;
+        for (int i = 0; i < dischargeProjectiles; i++)
+        {
+            Vector2 projDirection = Quaternion.AngleAxis(angleInterval * i, Vector3.forward) * direction;
+            Projectile newProj = Instantiate(dischargeProjectilePrefab, null);
+            newProj.transform.position = position;
+            newProj.Init(data, source, projDirection, hitCallback, knockback);
+        }
     }
 }

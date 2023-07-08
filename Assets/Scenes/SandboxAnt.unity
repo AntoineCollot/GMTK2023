@@ -459,7 +459,7 @@ MonoBehaviour:
     heal: 0
     movespeedBonus: 0
     repeat: 2
-    discharge: 0
+    discharge: 3
     cooldownReduction: 0
     damages: 1
     size: 0
@@ -531,6 +531,10 @@ MonoBehaviour:
     type: 3}
   laserSpellPrefab: {fileID: 6079097768137157445, guid: 5ceca6c6cfe336a4cb7f273d12da681a,
     type: 3}
+  dischargeProjectilePrefab: {fileID: 4033781835275459223, guid: 228f228e72cf1cb45b64280e2c1770c3,
+    type: 3}
+  minDischargeKnockback: 3
+  maxDischargeKnockback: 30
 --- !u!1 &827779775
 GameObject:
   m_ObjectHideFlags: 0
