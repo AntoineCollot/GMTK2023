@@ -16,6 +16,7 @@ public class PlayerDash : MonoBehaviour
     Rigidbody2D body;
 
     public UnityEvent onDash = new UnityEvent();
+    public UnityEvent onDashEnd = new UnityEvent();
     public static PlayerDash Instance;
 
     private void Awake()
@@ -61,6 +62,7 @@ public class PlayerDash : MonoBehaviour
     void EndDash()
     {
         isDashingToken.SetOn(false);
+        onDashEnd.Invoke();
     }
 
 #if UNITY_EDITOR

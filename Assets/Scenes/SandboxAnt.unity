@@ -352,8 +352,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dashDuration: 0.2
-  dashVelocity: 10
+  dashVelocity: 20
   onDash:
+    m_PersistentCalls:
+      m_Calls: []
+  onDashEnd:
     m_PersistentCalls:
       m_Calls: []
 --- !u!58 &353621374
@@ -560,7 +563,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b436bbee97bf19640b89b2848e3d5203, type: 3}
+  m_Sprite: {fileID: -1969608715, guid: 5d6092bffef37cb4199e63ec938f5bec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1878,7 +1881,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ad8fbc8294dbfdf468a80bf9cab6cfdf, type: 3}
+  m_Sprite: {fileID: -1969608715, guid: 5d6092bffef37cb4199e63ec938f5bec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
