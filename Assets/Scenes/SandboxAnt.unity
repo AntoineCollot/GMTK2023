@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spells:
-  - type: 2
+  - type: 1
     baseCooldown: 0
     baseProjectileSpeed: 5
     heal: 0

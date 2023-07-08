@@ -7,55 +7,21 @@ public class SpellInstanceProjectile : SpellInstance
 {
     LayerMask layerMask;
     public override LayerMask LayerMask => layerMask;
+    public Projectile projectilePrefab;
 
-    public override void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback)
+    public override void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
-        base.Init(data, source, direction, hitCallback);
+        base.Init(data, source, direction, hitCallback, isCastingState);
 
-        switch (source)
-        {
-            case Source.Player:
-                layerMask = LayerMask.GetMask("Enemies", "Level");
-                break;
-            case Source.Enemy:
-            default:
-                layerMask = LayerMask.GetMask("Player", "Level");
-                break;
-        }
-
-        GetComponent<Rigidbody2D>().velocity = direction * data.baseProjectileSpeed;
+        Invoke("EmitProjectile", AnticipationTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void EmitProjectile()
     {
-        if (IsInLayerMask(collision.transform.gameObject.layer))
-            Hit(collision.transform.gameObject);
-    }
-
-    void Hit(GameObject obj)
-    {
-        if (obj.TryGetComponent(out Health health))
-        {
-            Damage(health);
-        }
-
+        Projectile proj = Instantiate(projectilePrefab, null);
+        proj.transform.position = transform.position;
+        proj.Init(data, source, direction, hitCallback, Knockback);
+        isCastingToken.SetOn(false);
         Destroy(gameObject);
-    }
-
-    void Damage(Health health)
-    {
-        int appliedDamages = data.damages;
-        health.Hit(appliedDamages);
-
-        Vector2 knockbackDirection = direction;
-        if (data.knockback > 0 && health.TryGetComponent(out IKnockbackable knockbackable))
-            knockbackable.ApplyKnockback(knockbackDirection, Knockback);
-
-        hitCallback(health, data);
-    }
-
-    bool IsInLayerMask(int layer)
-    {
-        return LayerMask == (LayerMask | (1 << layer));
     }
 }

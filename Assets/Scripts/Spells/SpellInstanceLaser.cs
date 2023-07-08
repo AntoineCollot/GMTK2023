@@ -16,9 +16,9 @@ public class SpellInstanceLaser : SpellInstance
 
     public float LaserWidth => transform.localScale.y;
 
-    public override void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback)
+    public override void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
-        base.Init(data, source, direction, hitCallback);
+        base.Init(data, source, direction, hitCallback, isCastingState);
 
         //Raycast to check for obstacles
         laserLength = RaycastLaserLength();
@@ -30,10 +30,11 @@ public class SpellInstanceLaser : SpellInstance
 
     private void Start()
     {
-        StartCoroutine(ExecuteLaser());
+        StartCoroutine(ExecuteLaser(direction));
     }
 
-    IEnumerator ExecuteLaser()
+
+    IEnumerator ExecuteLaser(Vector2 direction)
     {
         yield return new WaitForSeconds(AnticipationTime);
 
@@ -57,6 +58,7 @@ public class SpellInstanceLaser : SpellInstance
             yield return new WaitForSeconds(LASER_HIT_INTERVAL);
         }
 
+        isCastingToken.SetOn(false);
         Destroy(gameObject);
     }
 

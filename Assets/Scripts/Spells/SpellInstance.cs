@@ -10,6 +10,8 @@ public abstract class SpellInstance : MonoBehaviour
     protected Source source;
     protected Vector2 direction;
     protected Action<Health, SpellData> hitCallback;
+    protected CompositeStateToken isCastingToken;
+    CompositeState isCastingState;
 
     [Header("Settings")]
     public float anticipationTimePlayer = 0.2f;
@@ -42,11 +44,22 @@ public abstract class SpellInstance : MonoBehaviour
         }
     }
 
-    public virtual void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback)
+    public virtual void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
         this.data = data;
         this.source = source;
         this.hitCallback = hitCallback;
         this.direction = direction;
+
+        this.isCastingState = isCastingState;
+        isCastingToken = new CompositeStateToken();
+        isCastingState.Add(isCastingToken);
+        isCastingToken.SetOn(true);
+    }
+
+    private void OnDestroy()
+    {
+        if(isCastingState !=null)
+            isCastingState.Remove(isCastingToken);
     }
 }
