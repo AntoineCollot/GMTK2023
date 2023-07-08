@@ -34,7 +34,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
     float outOfCooldownTime;
 
     Vector3[] corners;
-
+    Health health;
     SpellData NextSpellData => spells[currentSpell % spells.Count];
 
     private void Start()
@@ -42,6 +42,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
         path = new NavMeshPath();
         corners = new Vector3[10];
 
+        health = GetComponent<Health>();
         body = GetComponent<Rigidbody2D>();
         player = PlayerMovement.Instance.transform;
     }
@@ -216,7 +217,12 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
 
     void OnHitCallback(Health hitHealth, SpellData data)
     {
+        float damages = data.damages;
+        if (data.type == SpellType.Laser)
+            damages *= 1 / SpellInstanceLaser.LASER_HIT_COUNT;
 
+        if (data.heal > 0)
+            health.Heal(damages * data.heal * SpellData.HEAL_PER_DAMAGE);
     }
 
     public void GainMoveSpeedBonus(float mult)

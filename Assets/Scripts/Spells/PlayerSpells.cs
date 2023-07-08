@@ -8,6 +8,7 @@ public class PlayerSpells : MonoBehaviour
     const int SPELL_COUNT = 3;
 
     public float[] spellUsedTime;
+    Direction lastInputDirection = Direction.Up;
 
     Health health;
     InputMap inputMap;
@@ -46,6 +47,15 @@ public class PlayerSpells : MonoBehaviour
         inputMap.Disable();
     }
 
+    private void Update()
+    {
+        Vector2 inputs = inputMap.Gameplay.Movement.ReadValue<Vector2>();
+        if (inputs.magnitude > 0.7f)
+        {
+            lastInputDirection = inputs.ToDirection();
+        }
+    }
+
     public void TryUseSpell(int id)
     {
         if (!CanUseSpell(id))
@@ -57,7 +67,7 @@ public class PlayerSpells : MonoBehaviour
 
     public void CastSpell(in SpellData data)
     {
-        Vector2 direction = PlayerMovement.Instance.movementInputs.normalized;
+        Vector2 direction = lastInputDirection.ToVector2();
         SpellGenerator.Instance.CastSpell(transform.position, Source.Player, direction, in data, OnHitCallback);
 
         if (data.movespeedBonus > 0)
@@ -88,8 +98,12 @@ public class PlayerSpells : MonoBehaviour
 
     void OnHitCallback(Health hitHealth, SpellData data)
     {
-        if(data.heal>0)
-            health.Heal(data.damages * data.heal * SpellData.HEAL_PER_DAMAGE);
+        float damages = data.damages;
+        if (data.type == SpellType.Laser)
+            damages *= 1 / SpellInstanceLaser.LASER_HIT_COUNT;
+
+        if (data.heal>0)
+            health.Heal(damages * data.heal * SpellData.HEAL_PER_DAMAGE);
     }
 
     //1 full cooldown, <0 spell available

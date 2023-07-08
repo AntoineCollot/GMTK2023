@@ -453,9 +453,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spells:
-  - type: 0
+  - type: 2
     baseCooldown: 0
-    baseProjectileSpeed: 0
+    baseProjectileSpeed: 5
     heal: 0
     movespeedBonus: 0
     repeat: 2
@@ -529,7 +529,8 @@ MonoBehaviour:
     type: 3}
   projectileSpellPrefab: {fileID: 655028542686083002, guid: 8bb4db7caec4d7943903d04d100efae1,
     type: 3}
-  laserSpellPrefab: {fileID: 0}
+  laserSpellPrefab: {fileID: 6079097768137157445, guid: 5ceca6c6cfe336a4cb7f273d12da681a,
+    type: 3}
 --- !u!1 &827779775
 GameObject:
   m_ObjectHideFlags: 0

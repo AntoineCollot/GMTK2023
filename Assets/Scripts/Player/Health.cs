@@ -16,7 +16,7 @@ public class Health : MonoBehaviour
         instancedMaterial = GetComponentInChildren<SpriteRenderer>().material;
     }
 
-    public void Hit(int damages)
+    public void Hit(float damages)
     {
         if (isDead)
             return;
@@ -36,6 +36,6 @@ public class Health : MonoBehaviour
 
     public void Heal(float amount)
     {
-
+        health += amount;
     }
 }
