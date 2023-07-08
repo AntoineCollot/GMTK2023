@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IKnockbackable
 {
     InputMap inputMap;
     Rigidbody2D body;
@@ -16,8 +16,12 @@ public class PlayerMovement : MonoBehaviour
     public CompositeState lockMovementState;
     CompositeStateToken isDashingToken;
 
+    public static PlayerMovement Instance;
+
     private void Awake()
     {
+        Instance = this;
+
         inputMap = new InputMap();
 
         lockMovementState = new CompositeState();
@@ -54,5 +58,10 @@ public class PlayerMovement : MonoBehaviour
         velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxSpeedChange * Time.fixedDeltaTime);
 
         body.velocity = velocity;
+    }
+
+    public void ApplyKnockback(Vector2 direction, float amount)
+    {
+        body.AddForce(direction * amount, ForceMode2D.Impulse);
     }
 }

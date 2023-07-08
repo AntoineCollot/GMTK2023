@@ -55,6 +55,15 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Spell3"",
+                    ""type"": ""Button"",
+                    ""id"": ""ecb6750f-0f52-4273-8265-77d43f166f2c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""c6c2c2a7-78d8-4415-9337-eab9a03b6984"",
@@ -163,6 +172,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4abfee0-71ea-43a1-988b-6963ace6d522"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Spell3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -174,6 +194,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_Spell1 = m_Gameplay.FindAction("Spell1", throwIfNotFound: true);
         m_Gameplay_Spell2 = m_Gameplay.FindAction("Spell2", throwIfNotFound: true);
+        m_Gameplay_Spell3 = m_Gameplay.FindAction("Spell3", throwIfNotFound: true);
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
     }
 
@@ -239,6 +260,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_Spell1;
     private readonly InputAction m_Gameplay_Spell2;
+    private readonly InputAction m_Gameplay_Spell3;
     private readonly InputAction m_Gameplay_Dash;
     public struct GameplayActions
     {
@@ -247,6 +269,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @Spell1 => m_Wrapper.m_Gameplay_Spell1;
         public InputAction @Spell2 => m_Wrapper.m_Gameplay_Spell2;
+        public InputAction @Spell3 => m_Wrapper.m_Gameplay_Spell3;
         public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
@@ -266,6 +289,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Spell2.started += instance.OnSpell2;
             @Spell2.performed += instance.OnSpell2;
             @Spell2.canceled += instance.OnSpell2;
+            @Spell3.started += instance.OnSpell3;
+            @Spell3.performed += instance.OnSpell3;
+            @Spell3.canceled += instance.OnSpell3;
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
@@ -282,6 +308,9 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Spell2.started -= instance.OnSpell2;
             @Spell2.performed -= instance.OnSpell2;
             @Spell2.canceled -= instance.OnSpell2;
+            @Spell3.started -= instance.OnSpell3;
+            @Spell3.performed -= instance.OnSpell3;
+            @Spell3.canceled -= instance.OnSpell3;
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
@@ -307,6 +336,7 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnSpell1(InputAction.CallbackContext context);
         void OnSpell2(InputAction.CallbackContext context);
+        void OnSpell3(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
     }
 }
