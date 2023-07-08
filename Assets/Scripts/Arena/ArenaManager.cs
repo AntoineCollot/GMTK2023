@@ -29,9 +29,11 @@ public class ArenaManager : MonoBehaviour
     public GameObject bossPrefab;
     private GameObject bossEnnemy;
     public Transform bossSpawnPoint;
+    public GameObject bossDoor;
 
     [Header("Upgrades")]
     public List<SpellData> spells;
+    public List<SpellData> upgrades;
 
     [Header("FXs")]
     public Transform fxFolder;
@@ -114,6 +116,13 @@ public class ArenaManager : MonoBehaviour
         SpawnWave();
     }
 
+    public IEnumerator NextWave()
+    {
+        bossDoor.SetActive(false);
+        yield return new WaitForSeconds(3);
+        SpawnWave();
+    }
+
     void SpawnWave()
     {
         List<Transform> spawnPointAvailable = new List<Transform>();
@@ -176,6 +185,7 @@ public class ArenaManager : MonoBehaviour
     void EndWave()
     {
         Debug.Log("EndWave");
+        bossDoor.SetActive(true);
         // ouvre la porte
         // offre 3 améliorations
     }
