@@ -21,7 +21,7 @@ public class SpellGenerator : MonoBehaviour
         Instance = this;
     }
 
-    public void CastSpell(Vector2 position, Source source, Vector2 direction, in SpellData data, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
+    public void CastSpell(Vector2 position, ICastSpell source, Vector2 direction, in SpellData data, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
         PerformSpell(position, source, direction, data, hitCallback, isCastingState);
 
@@ -29,7 +29,7 @@ public class SpellGenerator : MonoBehaviour
             StartCoroutine(RepeatSpellLoop(position, source, direction, data, hitCallback, isCastingState));
     }
 
-    IEnumerator RepeatSpellLoop(Vector2 position, Source source, Vector2 direction, SpellData data, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
+    IEnumerator RepeatSpellLoop(Vector2 position, ICastSpell source, Vector2 direction, SpellData data, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
         CompositeStateToken isRepeatingToken = new CompositeStateToken();
         isRepeatingToken.SetOn(true);
@@ -58,7 +58,7 @@ public class SpellGenerator : MonoBehaviour
         isCastingState.Remove(isRepeatingToken);
     }
 
-    void PerformSpell(Vector2 position, Source source, Vector2 direction, in SpellData data, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
+    void PerformSpell(Vector2 position, ICastSpell source, Vector2 direction, in SpellData data, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
         SpellInstance newSpell;
         switch (data.type)
@@ -79,7 +79,7 @@ public class SpellGenerator : MonoBehaviour
         newSpell.transform.position = position;
         newSpell.Init(in data, source, direction, hitCallback, isCastingState);
 
-        if(data.discharge>0)
+        if (data.discharge>0)
             StartCoroutine(SpellDischarge(position, source, direction, data, hitCallback));
     }
 
@@ -91,7 +91,7 @@ public class SpellGenerator : MonoBehaviour
         rightDirection = Quaternion.AngleAxis(angleInterval * (id+1), Vector3.back) * direction;
     }
 
-    IEnumerator SpellDischarge(Vector2 position, Source source, Vector2 direction, SpellData data, Action<Health, SpellData> hitCallback)
+    IEnumerator SpellDischarge(Vector2 position, ICastSpell source, Vector2 direction, SpellData data, Action<Health, SpellData> hitCallback)
     {
         yield return new WaitForSeconds(0.2f);
 
@@ -108,7 +108,7 @@ public class SpellGenerator : MonoBehaviour
             Vector2 projDirection = Quaternion.AngleAxis(angleInterval * i, Vector3.forward) * direction;
             Projectile newProj = Instantiate(dischargeProjectilePrefab, null);
             newProj.transform.position = position;
-            newProj.Init(data, source, projDirection, hitCallback, knockback);
+            newProj.Init(data, source.Source, projDirection, hitCallback, knockback);
         }
     }
 }

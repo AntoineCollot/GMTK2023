@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class PlayerSpells : MonoBehaviour
+public class PlayerSpells : MonoBehaviour, ICastSpell
 {
     const int SPELL_COUNT = 3;
     public SpellData[] spells;
@@ -16,11 +17,15 @@ public class PlayerSpells : MonoBehaviour
 
     Health health;
     InputMap inputMap;
+    CharacterAnimations characterAnimations;
+
+    public Source Source => Source.Player;
 
     private void Awake()
     {
         inputMap = new InputMap();
         isCastingState = new CompositeState();
+        characterAnimations = GetComponentInChildren<CharacterAnimations>();
         inputMap.Gameplay.Spell1.performed += Spell1Performed;
         inputMap.Gameplay.Spell2.performed += Spell2Performed;
         inputMap.Gameplay.Spell3.performed += Spell3Performed;
@@ -74,6 +79,9 @@ public class PlayerSpells : MonoBehaviour
         if (!CanUseSpell(id))
             return;
 
+        if (PlayerMovement.Instance.lockMovementState.IsOn)
+            return;
+
         spellUsedTime[id] = Time.time;
         CastSpell(in spells[id]);
     }
@@ -81,7 +89,7 @@ public class PlayerSpells : MonoBehaviour
     public void CastSpell(in SpellData data)
     {
         Vector2 direction = lastInputDirection.ToVector2();
-        SpellGenerator.Instance.CastSpell(transform.position, Source.Player, direction, in data, OnHitCallback, isCastingState);
+        SpellGenerator.Instance.CastSpell(transform.position, this, direction, in data, OnHitCallback, isCastingState);
 
         if (data.movespeedBonus > 0)
             PlayerMovement.Instance.GainMoveSpeedBonus(data.MoveSpeedBonusMult);
@@ -121,5 +129,15 @@ public class PlayerSpells : MonoBehaviour
     public void ApplyUpgrade(int toSpellID, in SpellUpgradeData upgradeData)
     {
         spells[toSpellID].ApplyUpgrades(upgradeData);
+    }
+
+    public void OnSpellCastStarted()
+    {
+        characterAnimations.StartCast();
+    }
+
+    public void OnSpellCastFinished()
+    {
+        characterAnimations.EndCast();
     }
 }

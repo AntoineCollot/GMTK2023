@@ -2,11 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable
+public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable, IAnimable
 {
     InputMap inputMap;
     Rigidbody2D body;
     public Vector2 movementInputs { get; private set; }
+
+    //Animations
+    Direction animationDirection;
+    public Direction AnimationDirection => animationDirection;
+    public float AnimationMoveSpeed => desiredVelocity.magnitude;
+
     Vector2 desiredVelocity;
 
     [Header("Settings")]
@@ -47,13 +53,20 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable
 
     private void Update()
     {
-        movementInputs = inputMap.Gameplay.Movement.ReadValue<Vector2>().normalized;
-
+        //Movement bonus
         float currentMoveSpeed = moveSpeed;
         if (Time.time <= lastMoveSpeedBonusTime + SpellData.MOVE_SPEED_BONUS_DURATION)
             currentMoveSpeed *= moveSpeedBonusMult;
 
-        desiredVelocity = movementInputs * currentMoveSpeed;
+        if (lockMovementState.IsOn)
+            return;
+
+        Vector2 rawInputs = inputMap.Gameplay.Movement.ReadValue<Vector2>();
+        if (rawInputs.magnitude > 0.7f)
+            animationDirection = rawInputs.ToDirection();
+
+         movementInputs = inputMap.Gameplay.Movement.ReadValue<Vector2>().normalized;
+         desiredVelocity = movementInputs * currentMoveSpeed;
     }
 
     private void FixedUpdate()

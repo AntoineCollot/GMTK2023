@@ -36,8 +36,9 @@ public class SpellInstanceCac : SpellInstance
             //Callback
             hitCallback(health, data);
         }
-
+        source.OnSpellCastFinished();
         isCastingToken.SetOn(false);
+
         Destroy(gameObject);
     }
 

@@ -16,7 +16,7 @@ public class SpellInstanceLaser : SpellInstance
 
     public float LaserWidth => transform.localScale.y;
 
-    public override void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
+    public override void Init(in SpellData data, ICastSpell source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
         base.Init(data, source, direction, hitCallback, isCastingState);
 
@@ -37,6 +37,8 @@ public class SpellInstanceLaser : SpellInstance
     IEnumerator ExecuteLaser(Vector2 direction)
     {
         yield return new WaitForSeconds(AnticipationTime);
+
+        source.OnSpellCastFinished();
 
         for (int i = 0; i < LASER_HIT_COUNT; i++)
         {

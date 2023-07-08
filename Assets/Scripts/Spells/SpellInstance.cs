@@ -7,7 +7,7 @@ public enum Source { Player, Enemy}
 public abstract class SpellInstance : MonoBehaviour
 {
     protected SpellData data;
-    protected Source source;
+    protected ICastSpell source;
     protected Vector2 direction;
     protected Action<Health, SpellData> hitCallback;
     protected CompositeStateToken isCastingToken;
@@ -25,7 +25,7 @@ public abstract class SpellInstance : MonoBehaviour
     {
         get
         {
-            if (source == Source.Player)
+            if (source.Source == Source.Player)
                 return anticipationTimePlayer;
 
             return anticipationTimeEnemy;
@@ -37,14 +37,14 @@ public abstract class SpellInstance : MonoBehaviour
     {
         get
         {
-            if (source == Source.Player)
+            if (source.Source == Source.Player)
                 return LayerMask.GetMask("Enemies");
             else
                 return LayerMask.GetMask("Player");
         }
     }
 
-    public virtual void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
+    public virtual void Init(in SpellData data, ICastSpell source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
         this.data = data;
         this.source = source;
@@ -55,6 +55,7 @@ public abstract class SpellInstance : MonoBehaviour
         isCastingToken = new CompositeStateToken();
         isCastingState.Add(isCastingToken);
         isCastingToken.SetOn(true);
+        source.OnSpellCastStarted();
     }
 
     private void OnDestroy()

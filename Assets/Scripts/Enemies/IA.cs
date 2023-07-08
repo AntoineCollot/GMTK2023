@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 #endif
 
-public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
+public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable,IAnimable, ICastSpell
 {
     [Header("Pathfinding")]
     public float moveSpeed = 3;
@@ -24,8 +24,8 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
     public float projectileIdealRange;
     public float cacIdealRange;
     Transform player;
-    public enum State { MoveInSpellRange, Casting, WaitForCooldown }
-    State state;
+    public enum State { AfterCastFreeze, MoveInSpellRange, Casting, WaitForCooldown }
+    State state = State.MoveInSpellRange;
     const float AFTER_CASTING_MOVEMENT_COOLDOWN = 1;
 
     [Header("Spells")]
@@ -38,11 +38,20 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
     Health health;
     SpellData NextSpellData => spells[currentSpell % spells.Count];
 
+    //Animations
+    Direction animationDirection;
+    public Direction AnimationDirection => animationDirection;
+    public float AnimationMoveSpeed => desiredVelocity.magnitude;
+    CharacterAnimations characterAnimations;
+
+    public Source Source => Source.Enemy;
+
     private void Start()
     {
         path = new NavMeshPath();
         corners = new Vector3[10];
 
+        characterAnimations = GetComponentInChildren<CharacterAnimations>();
         isCastingState = new CompositeState();
         health = GetComponent<Health>();
         body = GetComponent<Rigidbody2D>();
@@ -68,6 +77,12 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
 
     void ComputeDesiredVelocity()
     {
+        if(isCastingState.IsOn)
+        {
+            desiredVelocity = Vector2.zero;
+            return;
+        }    
+
         Vector2 targetDirection = targetPosition - transform.position;
         if (targetDirection.magnitude < Time.deltaTime * moveSpeed)
         {
@@ -83,25 +98,31 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
             targetDirection = GetMoveAlongPath();
         }
 
-
         float currentMoveSpeed = moveSpeed;
         if (Time.time <= lastMoveSpeedBonusTime + SpellData.MOVE_SPEED_BONUS_DURATION)
             currentMoveSpeed *= moveSpeedBonusMult;
 
         desiredVelocity = targetDirection * currentMoveSpeed;
+        animationDirection = desiredVelocity.ToDirection();
     }
 
     void AIBehaviourUpdate()
     {
         switch (state)
         {
+            case State.AfterCastFreeze:
+                
+                break;
             case State.MoveInSpellRange:
                 MoveInSpellRangeBehaviour();
                 break;
             case State.Casting:
                 targetPosition = transform.position;
                 if (!isCastingState.IsOn)
-                    state = State.WaitForCooldown;
+                {
+                    state = State.AfterCastFreeze;
+                    Invoke("EndAfterCastFreeze", AFTER_CASTING_MOVEMENT_COOLDOWN);
+                }
                 break;
             case State.WaitForCooldown:
                 WaitForCooldownBehaviour();
@@ -109,6 +130,11 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
             default:
                 break;
         }
+    }
+
+    void EndAfterCastFreeze()
+    {
+        state = State.WaitForCooldown;
     }
 
     void WaitForCooldownBehaviour()
@@ -201,21 +227,15 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
 
         Vector2 direction = player.position - transform.position;
         direction.Normalize();
-        SpellGenerator.Instance.CastSpell(transform.position, Source.Enemy, direction, in data, OnHitCallback, isCastingState);
+        SpellGenerator.Instance.CastSpell(transform.position, this, direction, in data, OnHitCallback, isCastingState);
         state = State.Casting;
 
         if (data.movespeedBonus > 0)
             GainMoveSpeedBonus(data.MoveSpeedBonusMult);
 
         currentSpell++;
-    }
 
-    IEnumerator Casting(SpellInstance spell)
-    {
-        state = State.Casting;
-        yield return new WaitForSeconds(spell.AnticipationTime);
-        //The spell is performing
-        yield return new WaitForSeconds(AFTER_CASTING_MOVEMENT_COOLDOWN);
+        animationDirection = direction.ToDirection();
     }
 
     void OnHitCallback(Health hitHealth, SpellData data)
@@ -232,6 +252,16 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
     {
         lastMoveSpeedBonusTime = Time.time;
         moveSpeedBonusMult = mult;
+    }
+
+    public void OnSpellCastStarted()
+    {
+        characterAnimations.StartCast();
+    }
+
+    public void OnSpellCastFinished()
+    {
+        characterAnimations.EndCast();
     }
 
 #if UNITY_EDITOR

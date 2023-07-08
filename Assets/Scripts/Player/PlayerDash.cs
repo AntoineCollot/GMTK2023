@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerDash : MonoBehaviour
 {
@@ -14,8 +15,13 @@ public class PlayerDash : MonoBehaviour
     InputMap inputMap;
     Rigidbody2D body;
 
+    public UnityEvent onDash = new UnityEvent();
+    public static PlayerDash Instance;
+
     private void Awake()
     {
+        Instance = this;
+
         inputMap = new InputMap();
         inputMap.Gameplay.Dash.performed += OnDashPerformed;
 
@@ -42,9 +48,12 @@ public class PlayerDash : MonoBehaviour
 
     private void OnDashPerformed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        isDashingToken.SetOn(true);
+        if (PlayerMovement.Instance.lockMovementState.IsOn)
+            return;
 
+        isDashingToken.SetOn(true);
         body.velocity = movement.movementInputs * dashVelocity;
+        onDash.Invoke();
 
         Invoke("EndDash", dashDuration);
     }
