@@ -21,7 +21,7 @@ public class ArenaManager : MonoBehaviour
     public GameObject ennemyPrefab;
     public Transform ennemyParent;
     public List<Transform> spawnPoints;
-    private List<GameObject> notDead = new List<GameObject>();
+    private List<Health> notDead = new List<Health>();
 
     [Header("Boss")]
     public bool isBoss;
@@ -39,7 +39,7 @@ public class ArenaManager : MonoBehaviour
         {
             GameObject ennemy = Instantiate(ennemyPrefab, ennemyParent);
             ennemy.transform.localPosition = Vector3.zero;
-            ennemy.GetComponent<LifeCycle>().arena = this;            
+            ennemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
             ennemy.SetActive(false);
         }
         SetUpEnnemies(); // assigne les spells avant de mettre le boss dans la pool
@@ -47,7 +47,7 @@ public class ArenaManager : MonoBehaviour
         if (isBoss)
         {
             GameObject boss = Instantiate(bossPrefab, ennemyParent);
-            notDead.Add(boss);
+            notDead.Add(boss.GetComponent<Health>());
             bossEnnemy = boss;
         }
 
@@ -115,15 +115,20 @@ public class ArenaManager : MonoBehaviour
             spawnPointAvailable.RemoveAt(randomPoint);
 
             ennemyParent.transform.GetChild(i).gameObject.SetActive(true);
-            ennemyParent.GetChild(i).GetComponent<LifeCycle>().living = true;
 
-            notDead.Add(ennemyParent.GetChild(i).gameObject);
+            notDead.Add(ennemyParent.GetChild(i).GetComponent<Health>());
         }
     }
 
-    public void CheckWaveStatus(GameObject ennemyDead) // call every time a ennemy die
+    public void CheckWaveStatus() // call every time a ennemy die
     {
-        notDead.Remove(ennemyDead);
+        for (int i = 0; i < notDead.Count; i++)
+        {
+            if (notDead[i].isDead)
+            {
+                notDead.RemoveAt(i);
+            }
+        }
 
         if (notDead.Count == 0)
         {
