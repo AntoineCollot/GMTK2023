@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerSpells : MonoBehaviour
 {
-    public SpellData[] spells;
     const int SPELL_COUNT = 3;
+    public SpellData[] spells;
+    bool[] hasSpell;
+    float[] spellUsedTime;
 
-    public float[] spellUsedTime;
     Direction lastInputDirection = Direction.Up;
 
     CompositeState isCastingState;
@@ -66,6 +68,9 @@ public class PlayerSpells : MonoBehaviour
 
     public void TryUseSpell(int id)
     {
+        if (!HasSpell(id))
+            return;
+
         if (!CanUseSpell(id))
             return;
 
@@ -100,5 +105,21 @@ public class PlayerSpells : MonoBehaviour
     public bool CanUseSpell(int id)
     {
         return SpellCurrentCooldown01(id) <= 0;
+    }
+
+    public bool HasSpell(int id)
+    {
+        return hasSpell[id];
+    }
+
+    public void AddSpell(SpellData data, int id)
+    {
+        hasSpell[id] = true;
+        spells[id] = data;
+    }
+
+    public void ApplyUpgrade(int toSpellID, in SpellUpgradeData upgradeData)
+    {
+        spells[toSpellID].ApplyUpgrades(upgradeData);
     }
 }
