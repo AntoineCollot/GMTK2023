@@ -10,7 +10,6 @@ public class PlayerSpells : MonoBehaviour
     public float[] spellUsedTime;
 
     Health health;
-
     InputMap inputMap;
 
     private void Awake()
@@ -58,13 +57,17 @@ public class PlayerSpells : MonoBehaviour
 
     public void CastSpell(in SpellData data)
     {
-        SpellGenerator.Instance.CastSpell(transform.position, Source.Player, in data, OnHitCallback);
+        Vector2 direction = PlayerMovement.Instance.movementInputs.normalized;
+        SpellGenerator.Instance.CastSpell(transform.position, Source.Player, direction, in data, OnHitCallback);
+
+        if (data.movespeedBonus > 0)
+            PlayerMovement.Instance.GainMoveSpeedBonus(data.MoveSpeedBonusMult);
 
         if (data.repeat > 0)
-            StartCoroutine(RepeatSpell(data));
+            StartCoroutine(RepeatSpell(data, direction));
     }
 
-    IEnumerator RepeatSpell(SpellData data)
+    IEnumerator RepeatSpell(SpellData data, Vector2 direction)
     {
         for (int i = 0; i < data.repeat; i++)
         {
@@ -79,7 +82,7 @@ public class PlayerSpells : MonoBehaviour
                     break;
             }
 
-            SpellGenerator.Instance.CastSpell(transform.position, Source.Player, in data, OnHitCallback);
+            SpellGenerator.Instance.CastSpell(transform.position, Source.Player, direction,in data, OnHitCallback);
         }
     }
 

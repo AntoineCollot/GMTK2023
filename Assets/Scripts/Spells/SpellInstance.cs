@@ -8,14 +8,13 @@ public abstract class SpellInstance : MonoBehaviour
 {
     protected SpellData data;
     protected Source source;
+    protected Vector2 direction;
     protected Action<Health, SpellData> hitCallback;
 
     [Header("Settings")]
     public float anticipationTimePlayer = 0.2f;
     public float anticipationTimeEnemy = 0.5f;
-    public float minSize = 1;
-    public float maxSize = 3;
-    public float minKnockback = 10;
+    public float minKnockback = 5;
     public float maxKnockback = 30;
 
     public const float MAX_AMELIORATION_VALUE = 10;
@@ -30,10 +29,9 @@ public abstract class SpellInstance : MonoBehaviour
             return anticipationTimeEnemy;
         }
     }
-    public float Size => Curves.QuadEaseOut(minSize, maxSize, Mathf.Clamp01(data.size / MAX_AMELIORATION_VALUE));
     public float Knockback => Curves.QuadEaseOut(minKnockback, maxKnockback, Mathf.Clamp01(data.knockback / MAX_AMELIORATION_VALUE));
 
-    public LayerMask layerMask
+    public virtual LayerMask LayerMask
     {
         get
         {
@@ -44,17 +42,11 @@ public abstract class SpellInstance : MonoBehaviour
         }
     }
 
-    public virtual void Init(in SpellData data, Source source, Action<Health, SpellData> hitCallback)
+    public virtual void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback)
     {
         this.data = data;
         this.source = source;
         this.hitCallback = hitCallback;
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, minSize);
-        Gizmos.DrawWireSphere(transform.position, maxSize);
+        this.direction = direction;
     }
 }

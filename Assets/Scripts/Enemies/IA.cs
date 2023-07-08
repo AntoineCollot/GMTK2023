@@ -1,21 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEngine.AI;
+#endif
 
-public class IA : MonoBehaviour, IKnockbackable
+public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
 {
     [Header("Pathfinding")]
     public float moveSpeed = 3;
     public float maxSpeedChange = 100;
-    Transform player;
+    Vector3 targetPosition;
     Vector2 desiredVelocity;
     NavMeshPath path;
     Rigidbody2D body;
 
+    //movespeed Bonus
+    float lastMoveSpeedBonusTime;
+    float moveSpeedBonusMult;
+
     [Header("Behaviour")]
+    public float projectileIdealRange;
+    public float cacIdealRange;
+    Transform player;
+    public enum State { MoveInSpellRange, Casting, WaitForCooldown }
     State state;
-    public enum State { MoveInSpellRange, Casting, WaitForCooldown}
+    const float AFTER_CASTING_MOVEMENT_COOLDOWN = 1;
 
     [Header("Spells")]
     public List<SpellData> spells = new List<SpellData>();
@@ -23,6 +34,8 @@ public class IA : MonoBehaviour, IKnockbackable
     float outOfCooldownTime;
 
     Vector3[] corners;
+
+    SpellData NextSpellData => spells[currentSpell % spells.Count];
 
     private void Start()
     {
@@ -35,16 +48,9 @@ public class IA : MonoBehaviour, IKnockbackable
 
     private void Update()
     {
-        Vector2 targetDirection = player.position - transform.position;
-        targetDirection.Normalize();
+        AIBehaviourUpdate();
 
-        if (!HasLineOfSightToPlayer())
-        {
-            UpdatePath();
-            targetDirection = GetMoveAlongPath();
-        }
-
-        desiredVelocity = targetDirection * moveSpeed;
+        ComputeDesiredVelocity();
     }
 
     private void FixedUpdate()
@@ -57,6 +63,103 @@ public class IA : MonoBehaviour, IKnockbackable
         body.velocity = velocity;
     }
 
+    void ComputeDesiredVelocity()
+    {
+        Vector2 targetDirection = targetPosition - transform.position;
+        if (targetDirection.magnitude < Time.deltaTime * moveSpeed)
+        {
+            desiredVelocity = Vector2.zero;
+            return;
+        }
+
+        targetDirection.Normalize();
+
+        if (!HasLineOfSightToPosition(targetPosition))
+        {
+            UpdatePath();
+            targetDirection = GetMoveAlongPath();
+        }
+
+
+        float currentMoveSpeed = moveSpeed;
+        if (Time.time <= lastMoveSpeedBonusTime + SpellData.MOVE_SPEED_BONUS_DURATION)
+            currentMoveSpeed *= moveSpeedBonusMult;
+
+        desiredVelocity = targetDirection * currentMoveSpeed;
+    }
+
+    void AIBehaviourUpdate()
+    {
+        switch (state)
+        {
+            case State.MoveInSpellRange:
+                MoveInSpellRangeBehaviour();
+                break;
+            case State.Casting:
+                targetPosition = transform.position;
+                break;
+            case State.WaitForCooldown:
+                WaitForCooldownBehaviour();
+                break;
+            default:
+                break;
+        }
+    }
+
+    void WaitForCooldownBehaviour()
+    {
+        Vector3 fromPlayer = transform.position - player.position;
+        float idealRange;
+        switch (NextSpellData.type)
+        {
+            case SpellType.Cac:
+            case SpellType.AOE:
+            default:
+                idealRange = cacIdealRange;
+                break;
+            case SpellType.Projectile:
+                idealRange = projectileIdealRange;
+                break;
+            case SpellType.Laser:
+                idealRange = NextSpellData.size * 0.8f;
+                break;
+        }
+        targetPosition = player.position + fromPlayer.normalized * idealRange;
+
+        if (Time.time > outOfCooldownTime)
+            state = State.MoveInSpellRange;
+    }
+
+    void MoveInSpellRangeBehaviour()
+    {
+        float spellRange;
+        switch (NextSpellData.type)
+        {
+            case SpellType.Cac:
+            case SpellType.AOE:
+            default:
+                spellRange = cacIdealRange;
+                break;
+            case SpellType.Projectile:
+                spellRange = projectileIdealRange;
+                break;
+            case SpellType.Laser:
+                spellRange = NextSpellData.size * 0;
+                break;
+        }
+
+        //Check if in range for spell
+        if (Vector2.Distance(transform.position, player.position) <= spellRange)
+        {
+            //Use a spell
+            UseSpell();
+            return;
+        }
+
+        //Move into range
+        targetPosition = player.position;
+    }
+
     Vector2 GetMoveAlongPath()
     {
         path.GetCornersNonAlloc(corners);
@@ -66,18 +169,18 @@ public class IA : MonoBehaviour, IKnockbackable
         return toNextCorner;
     }
 
-    public bool HasLineOfSightToPlayer()
+    public bool HasLineOfSightToPosition(Vector3 position)
     {
-        Vector2 toPlayer = player.position - transform.position;
-        LayerMask layer = LayerMask.GetMask("Player", "Level");
+        Vector2 toPlayer = position - transform.position;
+        LayerMask layer = LayerMask.GetMask("Level");
         RaycastHit2D hit = Physics2D.Raycast(transform.position, toPlayer.normalized, toPlayer.magnitude, layer);
 
-        return hit.collider.transform == player;
+        return hit.collider == null;
     }
 
     void UpdatePath()
     {
-        NavMesh.CalculatePath(transform.position, player.position, NavMesh.AllAreas, path);
+        NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
     }
 
     public void ApplyKnockback(Vector2 direction, float amount)
@@ -89,11 +192,26 @@ public class IA : MonoBehaviour, IKnockbackable
     {
         int spellId = currentSpell % spells.Count;
         SpellData data = spells[spellId];
-        outOfCooldownTime = data.Cooldown;
+        outOfCooldownTime = Time.time + data.Cooldown;
 
-        SpellGenerator.Instance.CastSpell(transform.position, Source.Enemy, in data, OnHitCallback);
+        Vector2 direction = player.position - transform.position;
+        direction.Normalize();
+        SpellInstance spell = SpellGenerator.Instance.CastSpell(transform.position, Source.Enemy, direction, in data, OnHitCallback);
+
+        if (data.movespeedBonus > 0)
+            GainMoveSpeedBonus(data.MoveSpeedBonusMult);
+        StartCoroutine(Casting(spell));
 
         currentSpell++;
+    }
+
+    IEnumerator Casting(SpellInstance spell)
+    {
+        state = State.Casting;
+        yield return new WaitForSeconds(spell.AnticipationTime);
+        //The spell is performing
+        yield return new WaitForSeconds(AFTER_CASTING_MOVEMENT_COOLDOWN);
+        state = State.WaitForCooldown;
     }
 
     void OnHitCallback(Health hitHealth, SpellData data)
@@ -101,13 +219,28 @@ public class IA : MonoBehaviour, IKnockbackable
 
     }
 
+    public void GainMoveSpeedBonus(float mult)
+    {
+        lastMoveSpeedBonusTime = Time.time;
+        moveSpeedBonusMult = mult;
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        if (path == null)
+        //Range
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, projectileIdealRange);
+        Gizmos.DrawWireSphere(transform.position, cacIdealRange);
+
+        Handles.Label(transform.position + Vector3.down * 0.3f, state.ToString());
+
+        //Path
+        if (path == null || path.corners == null || path.corners.Length < 2)
             return;
         Gizmos.color = Color.white;
         Gizmos.DrawLine(transform.position, path.corners[1]);
+
     }
 #endif
 }

@@ -454,14 +454,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spells:
   - type: 0
+    baseCooldown: 0
+    baseProjectileSpeed: 0
     heal: 0
     movespeedBonus: 0
-    repeat: 0
+    repeat: 2
     discharge: 0
     cooldownReduction: 0
     damages: 1
     size: 0
     knockback: 2
+  spellUsedTime: []
 --- !u!114 &353621376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ed05af6de5f3e247a5608141bc89bc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 10
   onDie:
     m_PersistentCalls:
       m_Calls: []
@@ -524,7 +527,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cacSpellPrefab: {fileID: 2119871169744459568, guid: 98f7b16697f3f1a4489392a6399204dd,
     type: 3}
-  projectileSpellPrefab: {fileID: 0}
+  projectileSpellPrefab: {fileID: 655028542686083002, guid: 8bb4db7caec4d7943903d04d100efae1,
+    type: 3}
   laserSpellPrefab: {fileID: 0}
 --- !u!1 &827779775
 GameObject:
@@ -802,8 +806,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de9f541c44b63a47a9a81473d53a858, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 2
   maxSpeedChange: 100
+  projectileIdealRange: 3.5
+  cacIdealRange: 1
+  spells:
+  - type: 1
+    baseCooldown: 5
+    baseProjectileSpeed: 4
+    heal: 0
+    movespeedBonus: 0
+    repeat: 0
+    discharge: 0
+    cooldownReduction: 0
+    damages: 1
+    size: 0
+    knockback: 1
 --- !u!58 &1625812669
 CircleCollider2D:
   m_ObjectHideFlags: 0
