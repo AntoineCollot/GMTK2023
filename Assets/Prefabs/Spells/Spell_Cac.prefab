@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   anticipationTimePlayer: 0.2
   anticipationTimeEnemy: 0.5
-  minSize: 1
-  maxSize: 3.5
   minKnockback: 5
   maxKnockback: 30
+  minSize: 1.2
+  maxSize: 3.5

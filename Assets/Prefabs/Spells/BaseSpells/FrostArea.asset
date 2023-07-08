@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2f81f4292762374ea91c34c42718d9f, type: 3}
+  m_Name: FrostArea
+  m_EditorClassIdentifier: 
+  icon: {fileID: -243467881, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+  description: "An area of \u200B\u200Bice that damages and slows enemies within
+    its radius."
+  data:
+    type: 3
+    baseCooldown: 6
+    baseProjectileSpeed: 0
+    heal: 0
+    movespeedBonus: 0
+    repeat: 0
+    discharge: 0
+    cooldownReduction: 0
+    damages: 1
+    size: 1
+    knockback: 5
