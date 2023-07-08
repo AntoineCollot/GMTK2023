@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IKnockbackable
+public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable
 {
     InputMap inputMap;
     Rigidbody2D body;
@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable
     [Header("Settings")]
     public float moveSpeed = 5;
     public float maxSpeedChange = 100;
+
+    //move speed bonus
+    float lastMoveSpeedBonusTime;
+    float moveSpeedBonusMult;
 
     public CompositeState lockMovementState;
     CompositeStateToken isDashingToken;
@@ -44,7 +48,12 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable
     private void Update()
     {
         movementInputs = inputMap.Gameplay.Movement.ReadValue<Vector2>().normalized;
-        desiredVelocity = movementInputs * moveSpeed;
+
+        float currentMoveSpeed = moveSpeed;
+        if (Time.time <= lastMoveSpeedBonusTime + SpellData.MOVE_SPEED_BONUS_DURATION)
+            currentMoveSpeed *= moveSpeedBonusMult;
+
+        desiredVelocity = movementInputs * currentMoveSpeed;
     }
 
     private void FixedUpdate()
@@ -63,5 +72,11 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable
     public void ApplyKnockback(Vector2 direction, float amount)
     {
         body.AddForce(direction * amount, ForceMode2D.Impulse);
+    }
+
+    public void GainMoveSpeedBonus(float mult)
+    {
+        lastMoveSpeedBonusTime = Time.time;
+        moveSpeedBonusMult = mult;
     }
 }

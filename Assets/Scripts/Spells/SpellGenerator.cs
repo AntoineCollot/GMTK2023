@@ -16,7 +16,7 @@ public class SpellGenerator : MonoBehaviour
         Instance = this;
     }
 
-    public void CastSpell(Vector2 position, Source source, in SpellData data, Action<Health, SpellData> hitCallback)
+    public SpellInstance CastSpell(Vector2 position, Source source, Vector2 direction, in SpellData data, Action<Health, SpellData> hitCallback)
     {
         SpellInstance newSpell;
         switch (data.type)
@@ -35,6 +35,7 @@ public class SpellGenerator : MonoBehaviour
         }
 
         newSpell.transform.position = position;
-        newSpell.Init(in data, source, hitCallback);
+        newSpell.Init(in data, source, direction, hitCallback);
+        return newSpell;
     }
 }

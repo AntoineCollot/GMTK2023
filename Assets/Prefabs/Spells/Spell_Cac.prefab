@@ -48,5 +48,5 @@ MonoBehaviour:
   anticipationTimeEnemy: 0.5
   minSize: 1
   maxSize: 3.5
-  minKnockback: 10
+  minKnockback: 5
   maxKnockback: 30
