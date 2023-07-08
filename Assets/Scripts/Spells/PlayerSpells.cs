@@ -31,6 +31,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
         inputMap.Gameplay.Spell3.performed += Spell3Performed;
 
         spellUsedTime = new float[SPELL_COUNT];
+        hasSpell = new bool[SPELL_COUNT];
     }
 
     private void Start()
