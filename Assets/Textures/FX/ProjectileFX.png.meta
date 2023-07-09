@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 84462084f234e9e42b954119179e9bfe
+guid: 7abb569302bdb54488e6847553a9168a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -45,9 +45,9 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
-  alignment: 4
-  spritePivot: {x: 0, y: 0.5}
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 30
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 0
@@ -123,64 +123,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Laser_0
+      name: ProjectileFX_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 30
         height: 30
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05d55c32f2df4fe4e85841d4f59b3da7
-      internalID: -1396063290
+      spriteID: b67e2b19adc877149a02bfc92995fb58
+      internalID: 1722308650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Laser_1
+      name: ProjectileFX_1
       rect:
         serializedVersion: 2
         x: 30
         y: 0
         width: 30
         height: 30
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 21adfdafc33225e488535521145d9024
-      internalID: 1784019999
+      spriteID: deefec219d49b8c4aa7c22f14f366c6f
+      internalID: 916436358
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Laser_2
+      name: ProjectileFX_2
       rect:
         serializedVersion: 2
         x: 60
         y: 0
         width: 30
         height: 30
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 64b602c1f9af4f94b8f2895308bd6aef
-      internalID: 1550764126
+      spriteID: 043764c1fd4acd24687c0c9657d1d1ee
+      internalID: -1025768732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ProjectileFX_3
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32ed92bcf2b1f584db99a76ef0506f70
+      internalID: -13305346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ProjectileFX_4
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 0
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 384018f422d50d54bb7a3669f40479be
+      internalID: -1301992579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ProjectileFX_5
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 0
+        width: 30
+        height: 30
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a141957d89576c489cd3626dab6fbee
+      internalID: -1797788285
       vertices: []
       indices: 
       edges: []
@@ -188,17 +251,20 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    spriteID: 0267e3a9b29605b47b48e39ce7e38cf2
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Laser_0: -1396063290
-      Laser_1: 1784019999
-      Laser_2: 1550764126
+      ProjectileFX_0: 1722308650
+      ProjectileFX_1: 916436358
+      ProjectileFX_2: -1025768732
+      ProjectileFX_3: -13305346
+      ProjectileFX_4: -1301992579
+      ProjectileFX_5: -1797788285
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -30,6 +30,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
         inputMap.Gameplay.Spell2.performed += Spell2Performed;
         inputMap.Gameplay.Spell3.performed += Spell3Performed;
 
+       // spells = new SpellData[SPELL_COUNT];
         spellUsedTime = new float[SPELL_COUNT];
         hasSpell = new bool[SPELL_COUNT];
     }
@@ -74,8 +75,8 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
 
     public void TryUseSpell(int id)
     {
-        if (!HasSpell(id))
-            return;
+       // if (!HasSpell(id))
+        //    return;
 
         if (!CanUseSpell(id))
             return;

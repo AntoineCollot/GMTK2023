@@ -18,6 +18,16 @@ public class SpellInstanceCac : SpellInstance
     {
         yield return new WaitForSeconds(AnticipationTime);
 
+        ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (var particle in particles)
+        {
+            ParticleSystem.EmissionModule emission = particle.emission;
+            ParticleSystem.ShapeModule shape = particle.shape;
+            emission.rateOverTimeMultiplier = emission.rateOverTimeMultiplier * Size;
+            shape.radius = Size - 0.2f;
+            particle.Play();
+        }
+
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, Size, LayerMask);
 
         foreach (Collider2D collider in hitColliders)
@@ -39,7 +49,7 @@ public class SpellInstanceCac : SpellInstance
         source.OnSpellCastFinished();
         isCastingToken.SetOn(false);
 
-        Destroy(gameObject);
+        Destroy(gameObject,3);
     }
 
 #if UNITY_EDITOR

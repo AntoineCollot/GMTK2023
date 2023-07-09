@@ -47,9 +47,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Characters
-    uniqueID: 908182505
-    locked: 0
   - name: FX
     uniqueID: 3809748359
+    locked: 0
+  - name: Characters
+    uniqueID: 908182505
     locked: 0

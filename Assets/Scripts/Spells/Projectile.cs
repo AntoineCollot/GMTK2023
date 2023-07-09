@@ -11,6 +11,17 @@ public class Projectile : MonoBehaviour
     protected Action<Health, SpellData> hitCallback;
     LayerMask layerMask;
     float knockback;
+    bool isActive = true;
+
+    public float minSize = 0.5f;
+    public float maxSize = 1.5f;
+    public float Size => Curves.QuadEaseOut(minSize, maxSize, Mathf.Clamp01(data.size / SpellInstance.MAX_AMELIORATION_VALUE));
+
+    [Header("Animations")]
+    public Sprite[] sprites;
+    public Sprite hitSprite;
+    SpriteRenderer spriteRenderer;
+    public float frameInterval = 0.05f;
 
     public void Init(in SpellData data, Source source, Vector2 direction, Action<Health, SpellData> hitCallback, float knockback)
     {
@@ -32,6 +43,25 @@ public class Projectile : MonoBehaviour
         }
 
         GetComponent<Rigidbody2D>().velocity = direction * data.baseProjectileSpeed;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
+        transform.localScale = Vector3.one * Size;
+    }
+
+    void Start()
+    {
+        StartCoroutine(Anim());
+    }
+
+    IEnumerator Anim()
+    {
+        int frame = 0;
+        while(isActive)
+        {
+            spriteRenderer.sprite = sprites[frame % sprites.Length];
+            frame++;
+            yield return new WaitForSeconds(frameInterval);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -47,7 +77,12 @@ public class Projectile : MonoBehaviour
             Damage(health);
         }
 
-        Destroy(gameObject);
+        isActive = false;
+        spriteRenderer.sprite = hitSprite;
+
+        GetComponent<Collider2D>().enabled = false;
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        Destroy(gameObject, 0.1f);
     }
 
     void Damage(Health health)

@@ -407,13 +407,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spells:
-  - type: 1
+  - type: 2
     baseCooldown: 0
     baseProjectileSpeed: 5
     heal: 0
     movespeedBonus: 0
-    repeat: 2
-    discharge: 3
+    repeat: 0
+    discharge: 0
     cooldownReduction: 0
     damages: 1
     size: 0
@@ -560,8 +560,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 908182505
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1969608715, guid: 5d6092bffef37cb4199e63ec938f5bec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1882,8 +1882,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 908182505
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -1969608715, guid: 5d6092bffef37cb4199e63ec938f5bec, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2301,7 +2301,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 4
-      m_TileSpriteIndex: 6
+      m_TileSpriteIndex: 7
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -2891,7 +2891,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 7
-      m_TileSpriteIndex: 3
+      m_TileSpriteIndex: 6
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -3152,16 +3152,16 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 960493440, guid: 3650d0ed14ac2a742aad5c24602904ca, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 203826237, guid: 3650d0ed14ac2a742aad5c24602904ca, type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 0
     m_Data: {fileID: 0}
   - m_RefCount: 7
     m_Data: {fileID: -2033131815, guid: 3650d0ed14ac2a742aad5c24602904ca, type: 3}
   - m_RefCount: 1
+    m_Data: {fileID: 203826237, guid: 3650d0ed14ac2a742aad5c24602904ca, type: 3}
+  - m_RefCount: 1
     m_Data: {fileID: -1588492071, guid: 3650d0ed14ac2a742aad5c24602904ca, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
   - m_RefCount: 1
     m_Data: {fileID: 642127941, guid: 3650d0ed14ac2a742aad5c24602904ca, type: 3}
   - m_RefCount: 62

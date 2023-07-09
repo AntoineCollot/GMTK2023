@@ -16,6 +16,11 @@ public class SpellInstanceLaser : SpellInstance
 
     public float LaserWidth => transform.localScale.y;
 
+    [Header("Animations")]
+    public Sprite[] sprites;
+    SpriteRenderer spriteRenderer;
+    public float frameInterval = 0.05f;
+
     public override void Init(in SpellData data, ICastSpell source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
         base.Init(data, source, direction, hitCallback, isCastingState);
@@ -24,19 +29,33 @@ public class SpellInstanceLaser : SpellInstance
         laserLength = RaycastLaserLength();
 
         //Move the transform to set the visuals correctly
-        GetComponent<SpriteRenderer>().size = new Vector2(laserLength, 1);
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.size = new Vector2(laserLength, 1);
         transform.right = direction;
     }
 
     private void Start()
     {
         StartCoroutine(ExecuteLaser(direction));
+        StartCoroutine(Anim());
     }
 
+    IEnumerator Anim()
+    {
+        int frame = 0;
+        while (true)
+        {
+            spriteRenderer.sprite = sprites[frame % sprites.Length];
+            frame++;
+            yield return new WaitForSeconds(frameInterval);
+        }
+    }
 
     IEnumerator ExecuteLaser(Vector2 direction)
     {
+        spriteRenderer.enabled = false;
         yield return new WaitForSeconds(AnticipationTime);
+        spriteRenderer.enabled = true;
 
         source.OnSpellCastFinished();
 
