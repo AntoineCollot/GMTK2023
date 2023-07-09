@@ -16,6 +16,9 @@ MonoBehaviour:
   description: "An area of \u200B\u200Bfire that damages and slows enemies within
     its radius."
   data:
+    icon: {fileID: 1625274653, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+    description: "An area of \u200B\u200Bfire that damages and slows enemies within
+      its radius."
     type: 0
     baseCooldown: 4
     baseProjectileSpeed: 0

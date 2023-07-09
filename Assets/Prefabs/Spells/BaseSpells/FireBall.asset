@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f81f4292762374ea91c34c42718d9f, type: 3}
   m_Name: FireBall
   m_EditorClassIdentifier: 
-  icon: {fileID: 1981614573, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+  icon: {fileID: -46840776, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
   description: Launch an eletric ball that deals damage and knocks back its target.
   data:
+    icon: {fileID: -46840776, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+    description: Launch an eletric ball that deals damage and knocks back its target.
     type: 1
     baseCooldown: 1
     baseProjectileSpeed: 3

@@ -16,6 +16,9 @@ MonoBehaviour:
   description: "A fire strike that creates an area of \u200B\u200Bdamage and push
     ennemies."
   data:
+    icon: {fileID: 1981614573, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+    description: "A fire strike that creates an area of \u200B\u200Bdamage and push
+      ennemies."
     type: 0
     baseCooldown: 1
     baseProjectileSpeed: 0

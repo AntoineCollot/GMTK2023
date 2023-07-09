@@ -16,6 +16,9 @@ MonoBehaviour:
   description: A laser sent forward, dealing damage along its length that heals each
     enemy hit.
   data:
+    icon: {fileID: 964112516, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+    description: A laser sent forward, dealing damage along its length that heals
+      each enemy hit.
     type: 2
     baseCooldown: 3
     baseProjectileSpeed: 0
