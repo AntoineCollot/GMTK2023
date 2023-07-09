@@ -15,6 +15,7 @@ public class Health : MonoBehaviour
 
     public UnityEvent onDie = new UnityEvent();
     public UnityEvent onHit = new UnityEvent();
+    public UnityEvent onHeal = new UnityEvent();
 
     private void Start()
     {
@@ -49,7 +50,6 @@ public class Health : MonoBehaviour
 
     public void Die()
     {
-
         switch (team)
         {
             case Source.Player:
@@ -71,5 +71,7 @@ public class Health : MonoBehaviour
     public void Heal(float amount)
     {
         health += amount;
+
+        onHeal.Invoke();
     }
 }

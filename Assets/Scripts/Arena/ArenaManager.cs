@@ -25,14 +25,13 @@ public class ArenaManager : MonoBehaviour
     public List<Transform> spawnPoints;
     public List<Health> notDead = new List<Health>();
     
-
     [Header("Boss")]
     public bool isBoss;
     public GameObject bossEnnemy;
     public Transform bossSpawnPoint;
 
     [Header("BossTransition")]
-    public GameObject bossDoor;
+    public BossDoor bossDoor;
     public string sceneName;
     public GameObject darkScreen;
     public GameObject bossDeathFX;
@@ -96,7 +95,7 @@ public class ArenaManager : MonoBehaviour
             bossEnnemy.GetComponent<IA>().enabled = false;
         } else
         {
-            bossDoor.GetComponent<BossDoor>().arena = this;
+            bossDoor.arena = this;
         }
 
         StartCoroutine(StartArena());
@@ -188,7 +187,7 @@ public class ArenaManager : MonoBehaviour
 
     public IEnumerator NextWave()
     {
-        bossDoor.SetActive(false);
+        bossDoor.Close();
         yield return new WaitForSeconds(3);
         SetUpEnnemies();
         SpawnWave();
@@ -257,7 +256,7 @@ public class ArenaManager : MonoBehaviour
     {
         // FX        
         yield return new WaitForSeconds(0.5f);
-        bossDoor.SetActive(true); // ouvre la porte
+        bossDoor.Open(); // ouvre la porte
 
         GetComponent<UIManager>().SetTooltips(); // offre 3 améliorations
     }
