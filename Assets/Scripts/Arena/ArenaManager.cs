@@ -23,12 +23,12 @@ public class ArenaManager : MonoBehaviour
     public GameObject ennemyPrefab;
     public Transform ennemyParent;
     public List<Transform> spawnPoints;
-    public List<Health> notDead = new List<Health>();
-    
+    public List<Health> spawnedEnemies = new List<Health>();
+
     [Header("Boss")]
-    public bool isBoss;
     public GameObject bossEnnemy;
     public Transform bossSpawnPoint;
+    public bool isBoss => bossEnnemy != null;
 
     [Header("BossTransition")]
     public BossDoor bossDoor;
@@ -82,11 +82,11 @@ public class ArenaManager : MonoBehaviour
         lockToken = new CompositeStateToken();
         PlayerMovement.Instance.lockMovementState.Add(lockToken);
 
-        SetUpEnnemies(); // assigne les spells avant de mettre le boss dans la pool
+        //SetUpEnnemies(); // assigne les spells avant de mettre le boss dans la pool
 
         if (isBoss)
         {
-            notDead.Add(bossEnnemy.GetComponent<Health>());
+            spawnedEnemies.Add(bossEnnemy.GetComponent<Health>());
             bossEnnemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
             for (int i = 0; i < previousSpell.Count; i++)
             {
@@ -109,11 +109,12 @@ public class ArenaManager : MonoBehaviour
 
     void SetUpEnnemies()
     {
-        for (int i = 0; i < notDead.Count; i++)
+        //Clean
+        for (int i = 0; i < spawnedEnemies.Count; i++)
         {
-            Destroy(notDead[i].gameObject);
+            Destroy(spawnedEnemies[i].gameObject);
         }
-        notDead.Clear();
+        spawnedEnemies.Clear();
         for (int i = 0; i < spawnFxs.Count; i++)
         {
             Destroy(spawnFxs[i]);
@@ -219,29 +220,31 @@ public class ArenaManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         ennemyParent.transform.GetChild(index).gameObject.SetActive(true);
-        notDead.Add(ennemyParent.GetChild(index).GetComponent<Health>());
+        spawnedEnemies.Add(ennemyParent.GetChild(index).GetComponent<Health>());
     }
 
     public void CheckWaveStatus() // call every time a ennemy die
     {
-        for (int i = 0; i < notDead.Count; i++)
+        for (int i = 0; i < spawnedEnemies.Count; i++)
         {
-            if (!notDead[i].gameObject.activeSelf)
+            if (spawnedEnemies[i] == null || spawnedEnemies[i].isDead)
             {
-                for (int j = 0; j < deathFxs.Count; j++)
-                {
-                    if (!deathFxs[j].activeSelf)
-                    {
-                        deathFxs[j].transform.position = notDead[i].transform.position;
-                        deathFxs[j].SetActive(true);
-                        break;
-                    }
-                }
-                notDead.RemoveAt(i);
+                spawnedEnemies.RemoveAt(i);
+
+                //for (int j = 0; j < deathFxs.Count; j++)
+                //{
+                //    if (!deathFxs[j].activeSelf)
+                //    {
+                //        deathFxs[j].transform.position = spawnedEnemies[i].transform.position;
+                //        deathFxs[j].SetActive(true);
+                //        break;
+                //    }
+                //}
             }
         }
 
-        if (notDead.Count == 0)
+        //If no enemies
+        if (spawnedEnemies.Count == 0)
         {
             if (!isBoss) // si l'arene terminé n'est pas la salle du boss
             {

@@ -5250,8 +5250,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
       propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
@@ -5260,9 +5270,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 46174138}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
       propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2133735492}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
       propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -5275,8 +5300,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
       propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onDie.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
@@ -10834,8 +10874,7 @@ MonoBehaviour:
   - {fileID: 265330139}
   - {fileID: 1366674871}
   - {fileID: 1186199330}
-  notDead: []
-  isBoss: 0
+  spawnedEnemies: []
   bossEnnemy: {fileID: 0}
   bossSpawnPoint: {fileID: 0}
   bossDoor: {fileID: 1656634079}
@@ -10948,5 +10987,4 @@ MonoBehaviour:
   heartStates:
   - {fileID: -415481107, guid: 8ae6c10d4ce8ef84b96b871f32ec0cb0, type: 3}
   - {fileID: 1874749423, guid: 8ae6c10d4ce8ef84b96b871f32ec0cb0, type: 3}
-  defeatPanel: {fileID: 46174138}
   victoryPanel: {fileID: 1978447336}

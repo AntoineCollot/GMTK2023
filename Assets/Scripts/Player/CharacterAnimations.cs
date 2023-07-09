@@ -33,6 +33,7 @@ public class CharacterAnimations : MonoBehaviour
     private void OnDie()
     {
         anim.SetBool("IsDead", true);
+        Destroy(gameObject, 3);
     }
 
     void LateUpdate()
