@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f81f4292762374ea91c34c42718d9f, type: 3}
   m_Name: ChocWave
   m_EditorClassIdentifier: 
-  icon: {fileID: 1185785870, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
-  description: "A ground strike that creates an area of \u200B\u200Bdamage and push
+  icon: {fileID: 1981614573, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+  description: "A fire strike that creates an area of \u200B\u200Bdamage and push
     ennemies."
   data:
     type: 0
@@ -25,5 +25,5 @@ MonoBehaviour:
     discharge: 0
     cooldownReduction: 0
     damages: 1
-    size: 1
-    knockback: 5
+    size: 2
+    knockback: 2
