@@ -13,20 +13,21 @@ public class LoopManager : MonoBehaviour
     public static List<SpellData> LastLoopSpells {
         get
         {
-            if (lastLoopSpells == null)
-                lastLoopSpells = new List<SpellData>();
+            if (Instance.lastLoopSpells == null)
+                Instance.lastLoopSpells = new List<SpellData>();
 
             int id = 0;
-            while (lastLoopSpells.Count < 2)
+
+            while (Instance.lastLoopSpells.Count < 2)
             {
-                lastLoopSpells.Add(Instance.defaultSpells[id].data);
+                Instance.lastLoopSpells.Add(Instance.defaultSpells[id].data);
                 id++;
             }
 
-            return lastLoopSpells;
+            return Instance.lastLoopSpells;
         }
     }
-    static List<SpellData> lastLoopSpells;
+    List<SpellData> lastLoopSpells;
 
     public int maxHealth;
     public int loops;
@@ -93,6 +94,15 @@ public class LoopManager : MonoBehaviour
 
     public void OnGameEnd()
     {
-        lastLoopSpells = currentSpells;
+        lastLoopSpells = new List<SpellData>(currentSpells);
+
+        int id = 0;
+        while(id<lastLoopSpells.Count)
+        {
+            if (lastLoopSpells[id].icon == null)
+                lastLoopSpells.RemoveAt(id);
+            else
+                id++;
+        }
     }
 }

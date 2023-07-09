@@ -52,7 +52,10 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
         if (LoopManager.currentSpells != null)
         {
             for (int i = 0; i < LoopManager.currentSpells.Count; i++)
-            {
+            { 
+                if (LoopManager.currentSpells[i].icon == null || LoopManager.currentSpells[i].damages == 0)
+                    continue;
+
                 spells[i] = LoopManager.currentSpells[i];
                 hasSpell[i] = true;
             }
