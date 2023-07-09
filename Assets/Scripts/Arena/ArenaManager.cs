@@ -177,6 +177,7 @@ public class ArenaManager : MonoBehaviour
 
         if (!isBoss)
         {
+            yield return new WaitForSeconds(2);
             GetComponent<UIManager>().SetTooltips();
         } else
         {

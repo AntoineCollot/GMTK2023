@@ -7,6 +7,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     private SpellsRef spellsRef;
+    public GameObject firstPhrase;
 
     public List<GameObject> tooltips;
     public List<TextMeshProUGUI> descriptions;
@@ -44,6 +45,13 @@ public class UIManager : MonoBehaviour
         //Events
         PlayerSpells.Instance.onSpellCastFinished.AddListener(StartCooldown);
         PlayerSpells.Instance.GetComponent<Health>().onHit.AddListener(CheckHealth);
+        PlayerSpells.Instance.GetComponent<Health>().onHeal.AddListener(Healed);
+
+        ArenaManager arena = GetComponent<ArenaManager>();
+        if (!arena.isBoss)
+        {
+            firstPhrase.SetActive(true);
+        }
     }
 
     public void SetTooltips()
@@ -72,6 +80,8 @@ public class UIManager : MonoBehaviour
                 tooltips[i].GetComponent<UpgradeButton>().upgradeData = spellsRef.upgrades[random].data;
             }
         }
+
+        firstPhrase.SetActive(false);
     }
 
     public void Selected(UpgradeButton button)
