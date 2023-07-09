@@ -73,7 +73,6 @@ public class Health : MonoBehaviour
     public void Heal(float amount)
     {
         health += amount;
-
         onHeal.Invoke();
     }
 }

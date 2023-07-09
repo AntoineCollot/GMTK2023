@@ -22,11 +22,11 @@ MonoBehaviour:
     type: 2
     baseCooldown: 3
     baseProjectileSpeed: 0
-    heal: 1
+    heal: 5
     movespeedBonus: 0
     repeat: 0
     discharge: 0
     cooldownReduction: 0
-    damages: 1
+    damages: 3
     size: 2
     knockback: 0
