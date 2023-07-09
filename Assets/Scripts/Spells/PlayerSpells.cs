@@ -49,9 +49,12 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
         PlayerMovement.Instance.lockMovementState.Add(isCastingState);
 
         //Getspells
-        for (int i = 0; i < LoopManager.currentSpells.Count; i++)
+        if (LoopManager.currentSpells != null)
         {
-            spells[i] = LoopManager.currentSpells[i];
+            for (int i = 0; i < LoopManager.currentSpells.Count; i++)
+            {
+                spells[i] = LoopManager.currentSpells[i];
+            }
         }
     }
 

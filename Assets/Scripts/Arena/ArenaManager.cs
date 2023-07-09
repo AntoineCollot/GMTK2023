@@ -68,16 +68,16 @@ public class ArenaManager : MonoBehaviour
     {
         player = PlayerMovement.Instance.gameObject;
 
-        if (transitionObject == null)
-        {
-            GameObject.Find("TransitionObject").TryGetComponent<Transition>(out transitionObject);
-            if (transitionObject != null)
-            {
-                transitionObject.arenaManager = this;
-                transitionObject.defeat = false;
-                transitionObject.AssignParameters(isBoss);
-            }
-        }
+        //if (transitionObject == null)
+        //{
+        //    GameObject.Find("TransitionObject").TryGetComponent<Transition>(out transitionObject);
+        //    if (transitionObject != null)
+        //    {
+        //        transitionObject.arenaManager = this;
+        //        transitionObject.defeat = false;
+        //        transitionObject.AssignParameters(isBoss);
+        //    }
+        //}
 
         lockToken = new CompositeStateToken();
         PlayerMovement.Instance.lockMovementState.Add(lockToken);
