@@ -19,6 +19,8 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
     InputMap inputMap;
     CharacterAnimations characterAnimations;
 
+    public UnityEvent cooldown = new UnityEvent();
+
     public Source Source => Source.Player;
     public Transform SourceTransform => transform;
 
@@ -141,6 +143,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
 
     public void OnSpellCastFinished()
     {
+        cooldown.Invoke();
         characterAnimations.EndCast();
     }
 }

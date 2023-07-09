@@ -14,6 +14,7 @@ public class Health : MonoBehaviour
     public Source team;
 
     public UnityEvent onDie = new UnityEvent();
+    public UnityEvent onHit = new UnityEvent();
 
     private void Start()
     {
@@ -30,6 +31,7 @@ public class Health : MonoBehaviour
 
         instancedMaterial.SetFloat("_HitTime", Time.time);
         health -= damages;
+        onHit.Invoke();
 
         if (health < 0)
             Die();
