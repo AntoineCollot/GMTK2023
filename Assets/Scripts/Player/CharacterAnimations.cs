@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,7 @@ public class CharacterAnimations : MonoBehaviour
         anim.speed = 1f / 6f;
         spriteRenderer = GetComponent<SpriteRenderer>();
         PlayerDash dash = GetComponentInParent<PlayerDash>();
+        GetComponentInParent<Health>().onDie.AddListener(OnDie);
         animable = GetComponentInParent<IAnimable>();
         if (dash != null)
         {
@@ -26,6 +28,11 @@ public class CharacterAnimations : MonoBehaviour
 
         directionHash = Animator.StringToHash("Direction");
         moveSpeedHash = Animator.StringToHash("MoveSpeed");
+    }
+
+    private void OnDie()
+    {
+        anim.SetBool("IsDead", true);
     }
 
     void LateUpdate()

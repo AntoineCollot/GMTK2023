@@ -66,13 +66,13 @@ public class SpellGenerator : MonoBehaviour
             case SpellType.Cac:
             case SpellType.AOE:
             default:
-                newSpell = Instantiate(cacSpellPrefab, transform);
+                newSpell = Instantiate(cacSpellPrefab, source.SourceTransform);
                 break;
             case SpellType.Projectile:
                 newSpell = Instantiate(projectileSpellPrefab, transform);
                 break;
             case SpellType.Laser:
-                newSpell = Instantiate(laserSpellPrefab, transform);
+                newSpell = Instantiate(laserSpellPrefab, source.SourceTransform);
                 break;
         }
 

@@ -22,6 +22,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
     public UnityEvent cooldown = new UnityEvent();
 
     public Source Source => Source.Player;
+    public Transform SourceTransform => transform;
 
     private void Awake()
     {
