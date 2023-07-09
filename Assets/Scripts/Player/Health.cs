@@ -34,7 +34,7 @@ public class Health : MonoBehaviour
         health -= damages;
         onHit.Invoke();
 
-        if (health < 0)
+        if (health <= 0)
             Die();
 
         switch (team)
