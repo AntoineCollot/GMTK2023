@@ -36,6 +36,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
         inputMap.Gameplay.Spell1.performed += Spell1Performed;
         inputMap.Gameplay.Spell2.performed += Spell2Performed;
         inputMap.Gameplay.Spell3.performed += Spell3Performed;
+        health = GetComponent<Health>();
 
         spells = new SpellData[SPELL_COUNT];
         spellUsedTime = new float[SPELL_COUNT];

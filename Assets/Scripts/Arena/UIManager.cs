@@ -24,9 +24,6 @@ public class UIManager : MonoBehaviour
     public List<GameObject> blockHearts;
     public List<Sprite> heartStates;
 
-    [Header("Defeat")]
-    public GameObject defeatPanel;
-
     [Header("Victory")]
     public GameObject victoryPanel;
 
@@ -132,18 +129,14 @@ public class UIManager : MonoBehaviour
 
     public void CheckHealth()
     {
-        int life = Mathf.FloorToInt(PlayerSpells.Instance.GetComponent<Health>().health);
+        float hp = PlayerSpells.Instance.GetComponent<Health>().health;
+        int life = Mathf.FloorToInt(hp);
         for (int i = maxHealth; i > life && i > 0; i--)
         {
             if (FullHearts[i-1].GetComponent<Image>().sprite == heartStates[0])
             {
                 FullHearts[i-1].GetComponent<Animator>().SetTrigger("Hit");
             }
-        }
-
-        if (life <= 0)
-        {
-            Defeat();
         }
     }
 
@@ -179,11 +172,6 @@ public class UIManager : MonoBehaviour
             cooldowns[spellIndex].fillAmount = cd;
             yield return null;
         }
-    }
-
-    public void Defeat()
-    {
-        defeatPanel.SetActive(true);
     }
 
     public void Victory()
