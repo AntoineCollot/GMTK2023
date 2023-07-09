@@ -20,6 +20,7 @@ public class SpellInstanceLaser : SpellInstance
     public Sprite[] sprites;
     SpriteRenderer spriteRenderer;
     public float frameInterval = 0.05f;
+    public SpriteRenderer anticipation;
 
     public override void Init(in SpellData data, ICastSpell source, Vector2 direction, Action<Health, SpellData> hitCallback, CompositeState isCastingState)
     {
@@ -31,6 +32,7 @@ public class SpellInstanceLaser : SpellInstance
         //Move the transform to set the visuals correctly
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.size = new Vector2(laserLength, 1);
+        anticipation.size = new Vector2(laserLength, 1);
         transform.right = direction;
     }
 

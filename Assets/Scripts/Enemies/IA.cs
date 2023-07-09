@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.AI;
 #endif
 
-public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable,IAnimable, ICastSpell
+public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable, ICastSpell
 {
     [Header("Pathfinding")]
     public float moveSpeed = 3;
@@ -23,6 +23,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable,IAnimable, 
     [Header("Behaviour")]
     public float projectileIdealRange;
     public float cacIdealRange;
+    public float laserIdealRange = 2.5f;
     Transform player;
     public enum State { AfterCastFreeze, MoveInSpellRange, Casting, WaitForCooldown }
     State state = State.MoveInSpellRange;
@@ -77,11 +78,11 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable,IAnimable, 
 
     void ComputeDesiredVelocity()
     {
-        if(isCastingState.IsOn)
+        if (isCastingState.IsOn)
         {
             desiredVelocity = Vector2.zero;
             return;
-        }    
+        }
 
         Vector2 targetDirection = targetPosition - transform.position;
         if (targetDirection.magnitude < Time.deltaTime * moveSpeed)
@@ -111,7 +112,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable,IAnimable, 
         switch (state)
         {
             case State.AfterCastFreeze:
-                
+
                 break;
             case State.MoveInSpellRange:
                 MoveInSpellRangeBehaviour();
@@ -175,7 +176,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable,IAnimable, 
                 spellRange = projectileIdealRange;
                 break;
             case SpellType.Laser:
-                spellRange = NextSpellData.size * 0;
+                spellRange = laserIdealRange;
                 break;
         }
 
@@ -221,18 +222,22 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable,IAnimable, 
 
     public void UseSpell()
     {
+        Vector2 direction = player.position - transform.position;
+        direction.Normalize();
+
         int spellId = currentSpell % spells.Count;
         SpellData data = spells[spellId];
         outOfCooldownTime = Time.time + data.Cooldown;
-
-        Vector2 direction = player.position - transform.position;
-        direction.Normalize();
-        SpellGenerator.Instance.CastSpell(transform.position, this, direction, in data, OnHitCallback, isCastingState);
         state = State.Casting;
 
-        if (data.movespeedBonus > 0)
-            GainMoveSpeedBonus(data.MoveSpeedBonusMult);
+        //Test IA boss - use all
+        foreach (SpellData spellData in spells)
+        {
+            SpellGenerator.Instance.CastSpell(transform.position, this, direction, in spellData, OnHitCallback, isCastingState);
 
+            if (spellData.movespeedBonus > 0)
+                GainMoveSpeedBonus(spellData.MoveSpeedBonusMult);
+        }
         currentSpell++;
 
         animationDirection = direction.ToDirection();

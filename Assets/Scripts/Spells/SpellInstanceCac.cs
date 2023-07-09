@@ -9,6 +9,9 @@ public class SpellInstanceCac : SpellInstance
     public float maxSize = 3;
     public float Size => Curves.QuadEaseOut(minSize, maxSize, Mathf.Clamp01(data.size / MAX_AMELIORATION_VALUE));
 
+    public Transform anticipationCircleOutside;
+    public Transform anticipationCircleInside;
+
     private void Start()
     {
         StartCoroutine(ExecuteSpell());
@@ -16,7 +19,19 @@ public class SpellInstanceCac : SpellInstance
 
     IEnumerator ExecuteSpell()
     {
-        yield return new WaitForSeconds(AnticipationTime);
+        anticipationCircleOutside.localScale = Vector3.one * Size;
+
+        float t = 0;
+        while(t<1)
+        {
+            t += Time.deltaTime / AnticipationTime;
+
+            anticipationCircleInside.localScale = Vector3.one * Mathf.Lerp(0, 1, t);
+
+            yield return null;
+        }
+
+        anticipationCircleOutside.gameObject.SetActive(false);
 
         ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
         foreach (var particle in particles)
