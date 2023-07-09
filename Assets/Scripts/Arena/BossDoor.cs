@@ -1,24 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class BossDoor : MonoBehaviour
 {
-    public string sceneName;
+    public ArenaManager arena;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Player")
         {
-            Debug.Log("BossDoor");
+            Debug.Log("BossDoor | " + collision.name);
+            StartCoroutine(arena.DoorAlignement());
         }
-    }
-
-    IEnumerator CutScene()
-    {
-        yield return null;
-
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

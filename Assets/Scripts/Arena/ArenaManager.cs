@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ArenaManager : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class ArenaManager : MonoBehaviour
 
     [Header("Player")]
     public GameObject player;
-    public GameObject fakePlayer; // fait apparaitre un faux joueur pour le placer dans la scene
+    public float transitionSpeed;
     
 
     [Header("Arena start")]
@@ -29,7 +30,11 @@ public class ArenaManager : MonoBehaviour
     public GameObject bossPrefab;
     private GameObject bossEnnemy;
     public Transform bossSpawnPoint;
+
+    [Header("BossTransition")]
     public GameObject bossDoor;
+    public string sceneName;
+    public GameObject darkScreen;
 
     [Header("Upgrades")]
     public List<SpellData> spells;
@@ -43,8 +48,13 @@ public class ArenaManager : MonoBehaviour
     private List<GameObject> spawnFxs = new List<GameObject>();
     private List<GameObject> deathFxs = new List<GameObject>();
 
+    private CompositeStateToken lockToken;
+
     private void Start()
     {
+        lockToken = new CompositeStateToken();
+        PlayerMovement.Instance.lockMovementState.Add(lockToken);
+
         for (int i = 0; i < maxEnnemiesNumber; i++) // créer le nombre d'ennemis max
         {
             GameObject ennemy = Instantiate(ennemyPrefab, ennemyParent);
@@ -66,9 +76,18 @@ public class ArenaManager : MonoBehaviour
             GameObject boss = Instantiate(bossPrefab, ennemyParent);
             notDead.Add(boss.GetComponent<Health>());
             bossEnnemy = boss;
+        } else
+        {
+            bossDoor.GetComponent<BossDoor>().arena = this;
         }
 
         StartCoroutine(StartArena());
+    }
+
+    private void OnDestroy()
+    {
+        if (PlayerMovement.Instance != null)
+            PlayerMovement.Instance.lockMovementState.Remove(lockToken);
     }
 
     void SetUpEnnemies()
@@ -84,9 +103,10 @@ public class ArenaManager : MonoBehaviour
 
     IEnumerator StartArena()
     {
-        fakePlayer.SetActive(true);
-        fakePlayer.transform.position = playerSpawn.position;
-        player.SetActive(false);
+        player.transform.position = playerSpawn.position;
+        lockToken.SetOn(true);
+        PlayerMovement.Instance.SetAnimationDirection(Direction.Up);
+        player.GetComponent<CircleCollider2D>().isTrigger = true;
 
         yield return new WaitForSeconds(1); // temps d'attente, le temps que le joueur comprenne son environement
         
@@ -96,22 +116,19 @@ public class ArenaManager : MonoBehaviour
             bossEnnemy.SetActive(true);
         }
 
-        float placement = 3;
+        float placement = 2;
         while (placement > 0)
         {
             // déplace le faux joueur de l'entré au point défini 
-            Vector3 newPos = Vector3.Lerp(fakePlayer.transform.position, entryPoint.position, 1 * Time.deltaTime);
-            fakePlayer.transform.position = newPos;
+            Vector3 newPos = Vector3.Lerp(player.transform.position, entryPoint.position, transitionSpeed * Time.deltaTime);
+            player.transform.position = newPos;
 
             placement -= Time.deltaTime;
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.5f);
-        // remplace le faux joueur par le vrai
-        player.transform.position = fakePlayer.transform.position;
-        player.SetActive(true);
-        fakePlayer.SetActive(false);
+        player.GetComponent<CircleCollider2D>().isTrigger = false;
+        lockToken.SetOn(false);
 
         GetComponent<UIManager>().SetTooltips();
     }
@@ -185,7 +202,7 @@ public class ArenaManager : MonoBehaviour
     IEnumerator EndWave()
     {
         // FX
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
         if (!firstTime) 
             bossDoor.SetActive(true); // ouvre la porte
 
@@ -195,5 +212,57 @@ public class ArenaManager : MonoBehaviour
     void EndBoss()
     {
         // ?
+    }
+
+    public IEnumerator DoorAlignement()
+    {
+        lockToken.SetOn(true);
+        player.GetComponent<CircleCollider2D>().isTrigger = true;
+
+        bool up = false;
+        float time = 5;
+        while (time > 0)
+        {
+            if (!up)
+            {
+                Vector3 firstPoint = new Vector3(bossDoor.transform.position.x, player.transform.position.y, player.transform.position.z);
+                float dist = Vector3.Distance(player.transform.position, firstPoint);
+
+                Vector3 newPos = Vector3.Lerp(player.transform.position, firstPoint, transitionSpeed * Time.deltaTime * 2);
+                player.transform.position = newPos;
+
+                float dir = bossDoor.transform.position.x - player.transform.position.x;
+                if (dir < 0)
+                {
+                    PlayerMovement.Instance.SetAnimationDirection(Direction.Left);
+                }
+                else
+                {
+                    PlayerMovement.Instance.SetAnimationDirection(Direction.Right);
+                }
+
+                if (dist < 0.1f)
+                {
+                    PlayerMovement.Instance.SetAnimationDirection(Direction.Up);
+                    yield return new WaitForSeconds(0.5f);                    
+                    StartCoroutine(CutScene());
+                    up = true;
+                }
+            } else
+            {
+                Vector3 nextPoint = new Vector3(player.transform.position.x, bossDoor.transform.position.y + 5, player.transform.position.z);
+                Vector3 newPos = Vector3.Lerp(player.transform.position, nextPoint, transitionSpeed * Time.deltaTime *  0.5f);
+                player.transform.position = newPos;                
+            }
+
+            yield return null;
+        }
+    }
+
+    public IEnumerator CutScene()
+    {
+        darkScreen.SetActive(true);
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 }

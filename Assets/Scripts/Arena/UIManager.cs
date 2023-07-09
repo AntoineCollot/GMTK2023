@@ -14,8 +14,14 @@ public class UIManager : MonoBehaviour
     public List<Image> icons;
 
     public List<Image> actualSpells;
-    public List<ScriptableSpell> availableSpellData = new List<ScriptableSpell>();
+    private List<ScriptableSpell> availableSpellData = new List<ScriptableSpell>();
     private List<ScriptableSpell> selectedSpells = new List<ScriptableSpell>();
+
+    [Header("Health")]
+    public int maxHealth;
+    public List<GameObject> FullHearts;
+    public List<GameObject> blockHearts;
+    public List<Sprite> heartStates;
 
 
     private void Start()
@@ -27,6 +33,8 @@ public class UIManager : MonoBehaviour
         {
             availableSpellData.Add(spellsRef.spells[i]);
         }
+
+        InitiateHealth();
     }
 
     public void SetTooltips()
@@ -84,5 +92,45 @@ public class UIManager : MonoBehaviour
         }
 
         StartCoroutine(gameObject.GetComponent<ArenaManager>().NextWave());
+    }
+
+    void InitiateHealth()
+    {
+        for (int i = 0; i < maxHealth; i++)
+        {
+            FullHearts[i].SetActive(true);
+        }
+        if (maxHealth < FullHearts.Count)
+        {
+            int blocked = FullHearts.Count - maxHealth;
+            for (int i = 0; i < blocked; i++)
+            {
+                blockHearts[i].SetActive(true);
+            }
+        }
+    }
+
+    public void CheckHealth()
+    {
+        int life = Mathf.FloorToInt(player.GetComponent<Health>().health);
+        for (int i = maxHealth; i > life; i--)
+        {
+            if (FullHearts[i].GetComponent<Image>().sprite == heartStates[0])
+            {
+                FullHearts[i].GetComponent<Animator>().SetTrigger("Hit");
+            }
+        }
+    }
+
+    public void Healed()
+    {
+        int life = Mathf.FloorToInt(player.GetComponent<Health>().health);
+        for (int i = 0; i < life; i++)
+        {
+            if (FullHearts[i].GetComponent<Image>().sprite == heartStates[1])
+            {
+                FullHearts[i].GetComponent<Animator>().SetTrigger("Heal");
+            }
+        }
     }
 }
