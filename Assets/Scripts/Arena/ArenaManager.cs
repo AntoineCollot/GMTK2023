@@ -81,20 +81,6 @@ public class ArenaManager : MonoBehaviour
         lockToken = new CompositeStateToken();
         PlayerMovement.Instance.lockMovementState.Add(lockToken);
 
-        for (int i = 0; i < maxEnnemiesNumber; i++) // créer le nombre d'ennemis max
-        {
-            GameObject ennemy = Instantiate(ennemyPrefab, ennemyParent);
-            ennemy.transform.localPosition = Vector3.zero;
-            ennemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
-            ennemy.SetActive(false);
-
-            GameObject spawnFx = Instantiate(spawnFxPrefab, fxFolder);
-            GameObject deathFx = Instantiate(deathFxPrefab, fxFolder);
-            spawnFxs.Add(spawnFx);
-            deathFxs.Add(deathFx);
-            spawnFx.SetActive(false);
-            deathFx.SetActive(false);
-        }
         SetUpEnnemies(); // assigne les spells avant de mettre le boss dans la pool
 
         if (isBoss)
@@ -122,12 +108,40 @@ public class ArenaManager : MonoBehaviour
 
     void SetUpEnnemies()
     {
-        for (int i = 0; i < maxEnnemiesNumber; i++)
+        for (int i = 0; i < notDead.Count; i++)
         {
+            Destroy(notDead[i].gameObject);
+        }
+        notDead.Clear();
+        for (int i = 0; i < spawnFxs.Count; i++)
+        {
+            Destroy(spawnFxs[i]);
+        }
+        spawnFxs.Clear();
+        for (int i = 0; i < deathFxs.Count; i++)
+        {
+            Destroy(deathFxs[i]);
+        }
+        deathFxs.Clear();
+
+        for (int i = 0; i < maxEnnemiesNumber; i++) // créer le nombre d'ennemis max
+        {
+            GameObject ennemy = Instantiate(ennemyPrefab, ennemyParent);
+            ennemy.transform.localPosition = Vector3.zero;
+            ennemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
+            ennemy.SetActive(false);
+
+            GameObject spawnFx = Instantiate(spawnFxPrefab, fxFolder);
+            GameObject deathFx = Instantiate(deathFxPrefab, fxFolder);
+            spawnFxs.Add(spawnFx);
+            deathFxs.Add(deathFx);
+            spawnFx.SetActive(false);
+            deathFx.SetActive(false);
+
             int randomSpell = Random.Range(0, previousSpell.Count);
-            IA ennemy = ennemyParent.GetChild(i).GetComponent<IA>();
-            ennemy.spells.Clear(); // enlève ses spells
-            ennemy.spells.Add(previousSpell[randomSpell]); // lui ajoute un spell aléatoire
+            IA _ia = ennemyParent.GetChild(i).GetComponent<IA>();
+            _ia.spells.Clear(); // enlève ses spells
+            _ia.spells.Add(previousSpell[randomSpell]); // lui ajoute un spell aléatoire
         }
     }
 
@@ -174,6 +188,7 @@ public class ArenaManager : MonoBehaviour
     {
         bossDoor.SetActive(false);
         yield return new WaitForSeconds(3);
+        SetUpEnnemies();
         SpawnWave();
     }
 
