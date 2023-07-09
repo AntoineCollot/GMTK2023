@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     public List<Image> icons;
 
     public List<Image> actualSpells;
+    public List<Image> cooldowns;
     private List<ScriptableSpell> availableSpellData = new List<ScriptableSpell>();
     private List<ScriptableSpell> selectedSpells = new List<ScriptableSpell>();
 
@@ -71,6 +72,7 @@ public class UIManager : MonoBehaviour
         {
             player.AddSpell(button.spellData.data, button.index);
             actualSpells[button.index].sprite = icons[button.index].sprite;
+            cooldowns[button.index].sprite = icons[button.index].sprite;
             selectedSpells.Add(button.spellData);
 
             availableSpellData.Clear();
@@ -131,6 +133,29 @@ public class UIManager : MonoBehaviour
             {
                 FullHearts[i].GetComponent<Animator>().SetTrigger("Heal");
             }
+        }
+    }
+
+    public void StartCooldown()
+    {
+        for (int i = 0; i < actualSpells.Count; i++)
+        {
+            if (player.SpellCurrentCooldown01(i) < 1)
+            {
+                StartCoroutine(Cooldown(i));
+            }
+        }
+        
+    }
+
+    IEnumerator Cooldown(int spellIndex)
+    {
+        bool onCD = true;
+        while (onCD)
+        {
+            float _cd = player.SpellCurrentCooldown01(spellIndex);
+            cooldowns[spellIndex].fillAmount = _cd;
+            yield return null;
         }
     }
 }
