@@ -19,13 +19,17 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
     InputMap inputMap;
     CharacterAnimations characterAnimations;
 
-    public UnityEvent cooldown = new UnityEvent();
+    public UnityEvent onSpellCastFinished = new UnityEvent();
+
+    public static PlayerSpells Instance;
 
     public Source Source => Source.Player;
     public Transform SourceTransform => transform;
 
     private void Awake()
     {
+        Instance = this;
+
         inputMap = new InputMap();
         isCastingState = new CompositeState();
         characterAnimations = GetComponentInChildren<CharacterAnimations>();
@@ -33,7 +37,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
         inputMap.Gameplay.Spell2.performed += Spell2Performed;
         inputMap.Gameplay.Spell3.performed += Spell3Performed;
 
-       // spells = new SpellData[SPELL_COUNT];
+        spells = new SpellData[SPELL_COUNT];
         spellUsedTime = new float[SPELL_COUNT];
         hasSpell = new bool[SPELL_COUNT];
     }
@@ -78,8 +82,8 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
 
     public void TryUseSpell(int id)
     {
-       // if (!HasSpell(id))
-        //    return;
+        if (!HasSpell(id))
+            return;
 
         if (!CanUseSpell(id))
             return;
@@ -143,7 +147,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
 
     public void OnSpellCastFinished()
     {
-        cooldown.Invoke();
+        onSpellCastFinished.Invoke();
         characterAnimations.EndCast();
     }
 }

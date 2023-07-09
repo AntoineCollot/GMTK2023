@@ -43,15 +43,14 @@ public class Transition : MonoBehaviour
         {
             arenaManager.previousSpell[i] = bossSpells[i];
         }
-        PlayerSpells player = arenaManager.player.GetComponent<PlayerSpells>();
         for (int i = 0; i < playerSpells.Count; i++)
         {
-            player.AddSpell(playerSpells[i], i);
+            PlayerSpells.Instance.AddSpell(playerSpells[i], i);
             arenaManager.GetComponent<UIManager>().actualSpells[i].sprite = spellsIcons[i];
             arenaManager.GetComponent<UIManager>().cooldowns[i].sprite = spellsIcons[i];
         }
         arenaManager.GetComponent<UIManager>().maxHealth = playerMaxHealth;
-        player.GetComponent<Health>().health = playerhealth;
+        PlayerSpells.Instance.GetComponent<Health>().health = playerhealth;
         if (isBoss)
         {
             // assign bossName
@@ -62,13 +61,12 @@ public class Transition : MonoBehaviour
     {
         if (!isBoss)
         {
-            PlayerSpells player = arenaManager.player.GetComponent<PlayerSpells>();
-            for (int i = 0; i < player.spells.Length; i++)
+            for (int i = 0; i < PlayerSpells.Instance.spells.Length; i++)
             {
-                playerSpells[i] = player.spells[i];
+                playerSpells[i] = PlayerSpells.Instance.spells[i];
                 spellsIcons[i] = arenaManager.GetComponent<UIManager>().actualSpells[i].sprite;
             }
-            playerhealth = player.GetComponent<Health>().health;
+            playerhealth = PlayerSpells.Instance.GetComponent<Health>().health;
             playerMaxHealth = arenaManager.GetComponent<UIManager>().maxHealth;
             // playerName
         }

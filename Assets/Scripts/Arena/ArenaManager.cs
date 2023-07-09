@@ -9,7 +9,7 @@ public class ArenaManager : MonoBehaviour
     public List<SpellData> previousSpell; // setUp quand le joueur vainc le boss
 
     [Header("Player")]
-    public GameObject player;
+    GameObject player;
     public float transitionSpeed;
     
 
@@ -67,6 +67,8 @@ public class ArenaManager : MonoBehaviour
 
     private void Start()
     {
+        player = PlayerMovement.Instance.gameObject;
+
         if (transitionObject == null)
         {
             GameObject.Find("TransitionObject").TryGetComponent<Transition>(out transitionObject);

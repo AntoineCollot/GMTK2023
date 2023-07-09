@@ -7,7 +7,6 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     private SpellsRef spellsRef;
-    private PlayerSpells player;
 
     public List<GameObject> tooltips;
     public List<TextMeshProUGUI> descriptions;
@@ -34,7 +33,6 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         spellsRef = GetComponent<SpellsRef>();
-        player = GetComponent<ArenaManager>().player.GetComponent<PlayerSpells>();
 
         for (int i = 0; i < spellsRef.spells.Count; i++)
         {
@@ -42,6 +40,10 @@ public class UIManager : MonoBehaviour
         }
 
         InitiateHealth();
+
+        //Events
+        PlayerSpells.Instance.onSpellCastFinished.AddListener(StartCooldown);
+        PlayerSpells.Instance.GetComponent<Health>().onHit.AddListener(CheckHealth);
     }
 
     public void SetTooltips()
@@ -50,7 +52,7 @@ public class UIManager : MonoBehaviour
         {
             tooltips[i].SetActive(true);
 
-            if (!player.HasSpell(i))
+            if (!PlayerSpells.Instance.HasSpell(i))
             {
                 int random = Random.Range(0, availableSpellData.Count);
                 icons[i].sprite = availableSpellData[random].icon;
@@ -76,7 +78,7 @@ public class UIManager : MonoBehaviour
     {
         if (button.isSpell)
         {
-            player.AddSpell(button.spellData.data, button.index);
+            PlayerSpells.Instance.AddSpell(button.spellData.data, button.index);
             actualSpells[button.index].sprite = icons[button.index].sprite;
             cooldowns[button.index].sprite = icons[button.index].sprite;
             selectedSpells.Add(button.spellData);
@@ -91,7 +93,7 @@ public class UIManager : MonoBehaviour
             }
         } else
         {
-            player.ApplyUpgrade(button.index, button.upgradeData);
+            PlayerSpells.Instance.ApplyUpgrade(button.index, button.upgradeData);
         }
 
         for (int i = 0; i < tooltips.Count; i++)
@@ -120,7 +122,7 @@ public class UIManager : MonoBehaviour
 
     public void CheckHealth()
     {
-        int life = Mathf.FloorToInt(player.GetComponent<Health>().health);
+        int life = Mathf.FloorToInt(PlayerSpells.Instance.GetComponent<Health>().health);
         for (int i = maxHealth; i > life && i > 0; i--)
         {
             if (FullHearts[i-1].GetComponent<Image>().sprite == heartStates[0])
@@ -137,7 +139,7 @@ public class UIManager : MonoBehaviour
 
     public void Healed()
     {
-        int life = Mathf.FloorToInt(player.GetComponent<Health>().health);
+        int life = Mathf.FloorToInt(PlayerSpells.Instance.GetComponent<Health>().health);
         for (int i = 0; i < life; i++)
         {
             if (FullHearts[i].GetComponent<Image>().sprite == heartStates[1])
@@ -151,7 +153,7 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < actualSpells.Count; i++)
         {
-            if (player.SpellCurrentCooldown01(i) < 1)
+            if (PlayerSpells.Instance.SpellCurrentCooldown01(i) < 1)
             {
                 StartCoroutine(Cooldown(i));
             }
@@ -160,11 +162,11 @@ public class UIManager : MonoBehaviour
 
     IEnumerator Cooldown(int spellIndex)
     {
-        bool onCD = true;
-        while (onCD)
+        float cd = 1;
+        while (cd>0)
         {
-            float _cd = player.SpellCurrentCooldown01(spellIndex);
-            cooldowns[spellIndex].fillAmount = _cd;
+            cd = PlayerSpells.Instance.SpellCurrentCooldown01(spellIndex);
+            cooldowns[spellIndex].fillAmount = cd;
             yield return null;
         }
     }
