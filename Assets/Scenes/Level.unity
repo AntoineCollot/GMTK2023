@@ -3804,7 +3804,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 937368776}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2133735489}
+        m_TargetAssemblyTypeName: ArenaManager, Assembly-CSharp
+        m_MethodName: ReturnToStart
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 1
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &937368776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10438,7 +10450,7 @@ MonoBehaviour:
   bossEnnemy: {fileID: 0}
   bossSpawnPoint: {fileID: 0}
   bossDoor: {fileID: 1656634076}
-  sceneName: BossScene
+  sceneName: Boss
   darkScreen: {fileID: 29784862}
   bossDeathFX: {fileID: 1964451783}
   spells: []

@@ -65,7 +65,6 @@ public class Health : MonoBehaviour
         body.velocity = Vector2.zero;
         body.isKinematic = true;
         isDead = true;
-        Debug.Log("die");
         onDie.Invoke();
     }
 

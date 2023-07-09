@@ -207,7 +207,6 @@ public class ArenaManager : MonoBehaviour
 
     public void CheckWaveStatus() // call every time a ennemy die
     {
-        Debug.Log("Lol");
         for (int i = 0; i < notDead.Count; i++)
         {
             if (!notDead[i].gameObject.activeSelf)
@@ -241,8 +240,7 @@ public class ArenaManager : MonoBehaviour
     {
         // FX        
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("openDoor");
-        bossDoor.SetActive(true); // ouvre la porte        
+        bossDoor.SetActive(true); // ouvre la porte
 
         GetComponent<UIManager>().SetTooltips(); // offre 3 améliorations
     }
@@ -308,6 +306,7 @@ public class ArenaManager : MonoBehaviour
     {
         darkScreen.SetActive(true);
         yield return new WaitForSeconds(time);
+        darkScreen.SetActive(false);
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
@@ -317,6 +316,13 @@ public class ArenaManager : MonoBehaviour
         StartCoroutine(CutScene(time));
         transitionObject.defeat = true;
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+    public void NewRun()
+    {
+        Time.timeScale = 1;
+        StartCoroutine(CutScene(1));
+        transitionObject.defeat = true;
     }
 
     public void StopTime()
