@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
     private List<ScriptableSpell> availableSpellData = new List<ScriptableSpell>();
     private List<ScriptableSpell> selectedSpells = new List<ScriptableSpell>();
 
+    public GameObject choiceUI;
+
     [Header("Health")]
     public int maxHealth;
     public List<GameObject> FullHearts;
@@ -53,6 +55,8 @@ public class UIManager : MonoBehaviour
 
     public void SetTooltips()
     {
+        choiceUI.SetActive(true);
+
         for (int i = 0; i < spellsRef.spells.Count; i++)
         {
             availableSpellData.Add(spellsRef.spells[i]);
@@ -88,6 +92,8 @@ public class UIManager : MonoBehaviour
 
     public void Selected(UpgradeButton button)
     {
+        choiceUI.SetActive(false);
+
         if (button.isSpell)
         {
             PlayerSpells.Instance.AddSpell(button.spellData.data, button.index);
