@@ -40,7 +40,7 @@ public class Transition : MonoBehaviour
         }
         for (int i = 0; i < 3; i++)
         {
-            arenaManager.previousSpell[i] = bossSpells[i];
+           // arenaManager.previousSpell[i] = bossSpells[i];
         }
         for (int i = 0; i < playerSpells.Count; i++)
         {
@@ -74,10 +74,10 @@ public class Transition : MonoBehaviour
             bossName = playerName;
         }
 
-        for (int i = 0; i < arenaManager.previousSpell.Count; i++)
-        {
-            bossSpells[i] = arenaManager.previousSpell[i];
-        }
+        //for (int i = 0; i < arenaManager.previousSpell.Count; i++)
+        //{
+            //bossSpells[i] = arenaManager.previousSpell[i];
+       // }
     }
 
     void ForFirst()
@@ -91,7 +91,7 @@ public class Transition : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             int random = Random.Range(0, allSpells.Count);
-            arenaManager.previousSpell[i] = allSpells[random].data;
+          //  arenaManager.previousSpell[i] = allSpells[random].data;
             allSpells.RemoveAt(random);
         }
 

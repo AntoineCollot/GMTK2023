@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class ArenaManager : MonoBehaviour
 {
     private Transition transitionObject;
-    public List<SpellData> previousSpell; // setUp quand le joueur vainc le boss
+    //public List<SpellData> previousSpell; // setUp quand le joueur vainc le boss
 
     [Header("Player")]
     GameObject player;
@@ -90,9 +90,9 @@ public class ArenaManager : MonoBehaviour
             bossEnnemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
             IA bossIA = bossEnnemy.GetComponent<IA>();
             bossIA.spells.Clear();
-            for (int i = 0; i < previousSpell.Count; i++)
+            for (int i = 0; i < LoopManager.lastLoopSpells.Count; i++)
             {
-                bossIA.spells.Add(previousSpell[i]);
+                bossIA.spells.Add(LoopManager.lastLoopSpells[i]);
             }
             bossIA.enabled = false;
 
@@ -147,10 +147,10 @@ public class ArenaManager : MonoBehaviour
             spawnFx.SetActive(false);
             deathFx.SetActive(false);
 
-            int randomSpell = Random.Range(0, previousSpell.Count);
+            int randomSpell = Random.Range(0, LoopManager.lastLoopSpells.Count);
             IA _ia = ennemyParent.GetChild(i).GetComponent<IA>();
             _ia.spells.Clear(); // enlève ses spells
-            _ia.spells.Add(previousSpell[randomSpell]); // lui ajoute un spell aléatoire
+            _ia.spells.Add(LoopManager.lastLoopSpells[randomSpell]); // lui ajoute un spell aléatoire
         }
     }
 
