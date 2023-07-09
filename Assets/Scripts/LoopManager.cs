@@ -29,6 +29,7 @@ public class LoopManager : MonoBehaviour
         Instance = this;
 
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
+        GetComponentInChildren<TextMeshProUGUI>().text = "Loops : " + loops.ToString();
     }
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
