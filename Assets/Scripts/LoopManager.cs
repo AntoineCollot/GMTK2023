@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,7 @@ public class LoopManager : MonoBehaviour
     public static List<SpellData> currentSpells;
     public static List<SpellData> lastLoopSpells;
     public int maxHealth;
+    public int loops;
 
     public static LoopManager Instance;
 
@@ -32,7 +34,12 @@ public class LoopManager : MonoBehaviour
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         if (arg0.name == "Level")
+        {
             maxHealth--;
+            loops++;
+
+            GetComponentInChildren<TextMeshProUGUI>().text = "Loops : " + loops.ToString();
+        }
 
         maxHealth = Mathf.Max(maxHealth, 3);
 

@@ -57,10 +57,13 @@ public class UIManager : MonoBehaviour
 
     void UpdateSprites()
     {
-        for (int i = 0; i < 3;i++)
+        if (LoopManager.currentSpells != null)
         {
-            actualSpells[i].sprite = LoopManager.currentSpells[i].icon;
-            cooldowns[i].sprite = LoopManager.currentSpells[i].icon;
+            for (int i = 0; i < 3; i++)
+            {
+                actualSpells[i].sprite = LoopManager.currentSpells[i].icon;
+                cooldowns[i].sprite = LoopManager.currentSpells[i].icon;
+            }
         }
 
         maxHealth = LoopManager.Instance.maxHealth;
@@ -89,7 +92,8 @@ public class UIManager : MonoBehaviour
                 tooltips[i].GetComponent<UpgradeButton>().spellData = availableSpellData[random];
                 tooltips[i].GetComponent<UpgradeButton>().indexAvailable = random;
                 availableSpellData.RemoveAt(random);
-            } else
+            }
+            else
             {
                 int random = Random.Range(0, spellsRef.upgrades.Count);
                 icons[i].sprite = spellsRef.upgrades[random].icon;
@@ -122,7 +126,8 @@ public class UIManager : MonoBehaviour
                     availableSpellData.Add(spellsRef.spells[i]);
                 }
             }
-        } else
+        }
+        else
         {
             PlayerSpells.Instance.ApplyUpgrade(button.index, button.upgradeData);
         }
@@ -157,9 +162,9 @@ public class UIManager : MonoBehaviour
         int life = Mathf.FloorToInt(hp);
         for (int i = maxHealth; i > life && i > 0; i--)
         {
-            if (FullHearts[i-1].GetComponent<Image>().sprite == heartStates[0])
+            if (FullHearts[i - 1].GetComponent<Image>().sprite == heartStates[0])
             {
-                FullHearts[i-1].GetComponent<Animator>().SetTrigger("Hit");
+                FullHearts[i - 1].GetComponent<Animator>().SetTrigger("Hit");
             }
         }
     }
@@ -190,7 +195,7 @@ public class UIManager : MonoBehaviour
     IEnumerator Cooldown(int spellIndex)
     {
         float cd = 1;
-        while (cd>0)
+        while (cd > 0)
         {
             cd = PlayerSpells.Instance.SpellCurrentCooldown01(spellIndex);
             cooldowns[spellIndex].fillAmount = cd;
