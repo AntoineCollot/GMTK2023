@@ -24,6 +24,12 @@ public class UIManager : MonoBehaviour
     public List<GameObject> blockHearts;
     public List<Sprite> heartStates;
 
+    [Header("Defeat")]
+    public GameObject defeatPanel;
+
+    [Header("Victory")]
+    public GameObject victoryPanel;
+
 
     private void Start()
     {
@@ -117,11 +123,15 @@ public class UIManager : MonoBehaviour
         int life = Mathf.FloorToInt(player.GetComponent<Health>().health);
         for (int i = maxHealth; i > life && i > 0; i--)
         {
-            Debug.Log(i-1);
             if (FullHearts[i-1].GetComponent<Image>().sprite == heartStates[0])
             {
                 FullHearts[i-1].GetComponent<Animator>().SetTrigger("Hit");
             }
+        }
+
+        if (life <= 0)
+        {
+            Defeat();
         }
     }
 
@@ -146,7 +156,6 @@ public class UIManager : MonoBehaviour
                 StartCoroutine(Cooldown(i));
             }
         }
-        
     }
 
     IEnumerator Cooldown(int spellIndex)
@@ -158,5 +167,16 @@ public class UIManager : MonoBehaviour
             cooldowns[spellIndex].fillAmount = _cd;
             yield return null;
         }
+    }
+
+    public void Defeat()
+    {
+        defeatPanel.SetActive(true);
+    }
+
+    public void Victory()
+    {
+        victoryPanel.SetActive(true);
+        GetComponent<ArenaManager>().StopTime();
     }
 }

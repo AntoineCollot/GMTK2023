@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ArenaManager : MonoBehaviour
 {
+    private Transition transitionObject;
     public List<SpellData> previousSpell; // setUp quand le joueur vainc le boss
 
     [Header("Player")]
@@ -22,24 +23,23 @@ public class ArenaManager : MonoBehaviour
     public GameObject ennemyPrefab;
     public Transform ennemyParent;
     public List<Transform> spawnPoints;
-    private List<Health> notDead = new List<Health>();
+    public List<Health> notDead = new List<Health>();
     
 
     [Header("Boss")]
     public bool isBoss;
-    public GameObject bossPrefab;
-    private GameObject bossEnnemy;
+    public GameObject bossEnnemy;
     public Transform bossSpawnPoint;
 
     [Header("BossTransition")]
     public GameObject bossDoor;
     public string sceneName;
     public GameObject darkScreen;
+    public GameObject bossDeathFX;
 
     [Header("Upgrades")]
     public List<SpellData> spells;
     public List<SpellData> upgrades;
-    private bool firstTime = true;
 
     [Header("FXs")]
     public Transform fxFolder;
@@ -50,8 +50,34 @@ public class ArenaManager : MonoBehaviour
 
     private CompositeStateToken lockToken;
 
+    private void Awake()
+    {
+        GameObject _transition = GameObject.Find("TransitionObject");
+        if (_transition != null)
+        {
+            GameObject.Find("TransitionObject").TryGetComponent<Transition>(out transitionObject);
+            if (transitionObject != null)
+            {
+                transitionObject.arenaManager = this;
+                transitionObject.defeat = false;
+                transitionObject.AssignParameters(isBoss);
+            }
+        }
+    }
+
     private void Start()
     {
+        if (transitionObject == null)
+        {
+            GameObject.Find("TransitionObject").TryGetComponent<Transition>(out transitionObject);
+            if (transitionObject != null)
+            {
+                transitionObject.arenaManager = this;
+                transitionObject.defeat = false;
+                transitionObject.AssignParameters(isBoss);
+            }
+        }
+
         lockToken = new CompositeStateToken();
         PlayerMovement.Instance.lockMovementState.Add(lockToken);
 
@@ -73,9 +99,13 @@ public class ArenaManager : MonoBehaviour
 
         if (isBoss)
         {
-            GameObject boss = Instantiate(bossPrefab, ennemyParent);
-            notDead.Add(boss.GetComponent<Health>());
-            bossEnnemy = boss;
+            notDead.Add(bossEnnemy.GetComponent<Health>());
+            bossEnnemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
+            for (int i = 0; i < previousSpell.Count; i++)
+            {
+                bossEnnemy.GetComponent<IA>().spells[i] = previousSpell[i];
+            }
+            bossEnnemy.GetComponent<IA>().enabled = false;
         } else
         {
             bossDoor.GetComponent<BossDoor>().arena = this;
@@ -130,7 +160,14 @@ public class ArenaManager : MonoBehaviour
         player.GetComponent<CircleCollider2D>().isTrigger = false;
         lockToken.SetOn(false);
 
-        GetComponent<UIManager>().SetTooltips();
+        if (!isBoss)
+        {
+            GetComponent<UIManager>().SetTooltips();
+        } else
+        {
+            bossEnnemy.GetComponent<IA>().enabled = true;
+            SpawnWave();
+        }
     }
 
     public IEnumerator NextWave()
@@ -170,10 +207,11 @@ public class ArenaManager : MonoBehaviour
 
     public void CheckWaveStatus() // call every time a ennemy die
     {
+        Debug.Log("Lol");
         for (int i = 0; i < notDead.Count; i++)
         {
-            if (notDead[i].isDead)
-            {                
+            if (!notDead[i].gameObject.activeSelf)
+            {
                 for (int j = 0; j < deathFxs.Count; j++)
                 {
                     if (!deathFxs[j].activeSelf)
@@ -201,10 +239,10 @@ public class ArenaManager : MonoBehaviour
 
     IEnumerator EndWave()
     {
-        // FX
+        // FX        
         yield return new WaitForSeconds(0.5f);
-        if (!firstTime) 
-            bossDoor.SetActive(true); // ouvre la porte
+        Debug.Log("openDoor");
+        bossDoor.SetActive(true); // ouvre la porte        
 
         GetComponent<UIManager>().SetTooltips(); // offre 3 améliorations
     }
@@ -212,10 +250,17 @@ public class ArenaManager : MonoBehaviour
     void EndBoss()
     {
         // ?
+        bossDeathFX.transform.position = bossEnnemy.transform.position;
+        bossDeathFX.SetActive(true);
+        Debug.Log("Victory");
+        // start animation
+        GetComponent<UIManager>().Victory();
     }
 
     public IEnumerator DoorAlignement()
     {
+        transitionObject.SaveParameters(isBoss);
+
         lockToken.SetOn(true);
         player.GetComponent<CircleCollider2D>().isTrigger = true;
 
@@ -245,7 +290,7 @@ public class ArenaManager : MonoBehaviour
                 {
                     PlayerMovement.Instance.SetAnimationDirection(Direction.Up);
                     yield return new WaitForSeconds(0.5f);                    
-                    StartCoroutine(CutScene());
+                    StartCoroutine(CutScene(5));
                     up = true;
                 }
             } else
@@ -259,10 +304,36 @@ public class ArenaManager : MonoBehaviour
         }
     }
 
-    public IEnumerator CutScene()
+    public IEnumerator CutScene(float time)
     {
         darkScreen.SetActive(true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(time);
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
+
+    public void ReturnToStart(float time)
+    {
+        Time.timeScale = 1;
+        StartCoroutine(CutScene(time));
+        transitionObject.defeat = true;
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+    }
+
+    public void StopTime()
+    {
+        StartCoroutine(SlowTime());
+    }
+
+    public IEnumerator SlowTime()
+    {
+        yield return new WaitForSeconds(5);
+
+        float time = 1;
+        while (time > 0) 
+        {
+            time -= Time.deltaTime;
+            Time.timeScale = time;
+            yield return null;
+        }
     }
 }

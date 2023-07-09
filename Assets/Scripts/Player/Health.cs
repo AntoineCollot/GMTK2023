@@ -33,6 +33,7 @@ public class Health : MonoBehaviour
     public void Die()
     {
         isDead = true;
+        Debug.Log("die");
         onDie.Invoke();
     }
 
