@@ -9112,7 +9112,7 @@ MonoBehaviour:
     repeat: 0
     discharge: 0
     cooldownReduction: 0
-    damages: 0
+    damages: 1
     size: 0
     knockback: 0
   - type: 1
@@ -9123,7 +9123,7 @@ MonoBehaviour:
     repeat: 0
     discharge: 0
     cooldownReduction: 0
-    damages: 0
+    damages: 1
     size: 0
     knockback: 0
   - type: 2
@@ -9134,7 +9134,7 @@ MonoBehaviour:
     repeat: 0
     discharge: 0
     cooldownReduction: 0
-    damages: 0
+    damages: 1
     size: 0
     knockback: 0
   player: {fileID: 68887590}

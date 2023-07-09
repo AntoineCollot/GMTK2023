@@ -115,11 +115,12 @@ public class UIManager : MonoBehaviour
     public void CheckHealth()
     {
         int life = Mathf.FloorToInt(player.GetComponent<Health>().health);
-        for (int i = maxHealth; i > life; i--)
+        for (int i = maxHealth; i > life && i > 0; i--)
         {
-            if (FullHearts[i].GetComponent<Image>().sprite == heartStates[0])
+            Debug.Log(i-1);
+            if (FullHearts[i-1].GetComponent<Image>().sprite == heartStates[0])
             {
-                FullHearts[i].GetComponent<Animator>().SetTrigger("Hit");
+                FullHearts[i-1].GetComponent<Animator>().SetTrigger("Hit");
             }
         }
     }
