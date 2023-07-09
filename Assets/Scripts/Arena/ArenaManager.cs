@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ArenaManager : MonoBehaviour
 {
-    private Transition transitionObject;
+    //private Transition transitionObject;
     //public List<SpellData> previousSpell; // setUp quand le joueur vainc le boss
 
     [Header("Player")]
@@ -51,17 +51,17 @@ public class ArenaManager : MonoBehaviour
 
     private void Awake()
     {
-        GameObject _transition = GameObject.Find("TransitionObject");
-        if (_transition != null)
-        {
-            GameObject.Find("TransitionObject").TryGetComponent<Transition>(out transitionObject);
-            if (transitionObject != null)
-            {
-                transitionObject.arenaManager = this;
-                transitionObject.defeat = false;
-                transitionObject.AssignParameters(isBoss);
-            }
-        }
+        //GameObject _transition = GameObject.Find("TransitionObject");
+        //if (_transition != null)
+        //{
+        //    GameObject.Find("TransitionObject").TryGetComponent<Transition>(out transitionObject);
+        //    if (transitionObject != null)
+        //    {
+        //        transitionObject.arenaManager = this;
+        //        transitionObject.defeat = false;
+        //        transitionObject.AssignParameters(isBoss);
+        //    }
+        //}
     }
 
     private void Start()
@@ -86,6 +86,7 @@ public class ArenaManager : MonoBehaviour
 
         if (isBoss)
         {
+            SetUpEnnemies();
             spawnedEnemies.Add(bossEnnemy.GetComponent<Health>());
             bossEnnemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
             IA bossIA = bossEnnemy.GetComponent<IA>();
@@ -95,8 +96,6 @@ public class ArenaManager : MonoBehaviour
                 bossIA.spells.Add(LoopManager.lastLoopSpells[i]);
             }
             bossIA.enabled = false;
-
-            SetUpEnnemies();
         } else
         {
             bossDoor.arena = this;
@@ -282,7 +281,7 @@ public class ArenaManager : MonoBehaviour
 
     public IEnumerator DoorAlignement()
     {
-        transitionObject.SaveParameters(isBoss);
+       // transitionObject.SaveParameters(isBoss);
 
         lockToken.SetOn(true);
         player.GetComponent<CircleCollider2D>().isTrigger = true;
@@ -339,7 +338,7 @@ public class ArenaManager : MonoBehaviour
     {
         Time.timeScale = 1;
         StartCoroutine(CutScene(time));
-        transitionObject.defeat = true;
+        //transitionObject.defeat = true;
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 
@@ -347,7 +346,7 @@ public class ArenaManager : MonoBehaviour
     {
         Time.timeScale = 1;
         StartCoroutine(CutScene(1));
-        transitionObject.defeat = true;
+        //transitionObject.defeat = true;
     }
 
     public void StopTime()
