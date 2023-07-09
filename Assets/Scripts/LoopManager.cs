@@ -10,7 +10,24 @@ public class LoopManager : MonoBehaviour
     public ScriptableSpell[] defaultSpells;
 
     public static List<SpellData> currentSpells;
-    public static List<SpellData> lastLoopSpells;
+    public static List<SpellData> LastLoopSpells {
+        get
+        {
+            if (lastLoopSpells == null)
+                lastLoopSpells = new List<SpellData>();
+
+            int id = 0;
+            while (lastLoopSpells.Count < 2)
+            {
+                lastLoopSpells.Add(Instance.defaultSpells[id].data);
+                id++;
+            }
+
+            return lastLoopSpells;
+        }
+    }
+    static List<SpellData> lastLoopSpells;
+
     public int maxHealth;
     public int loops;
 
@@ -32,14 +49,20 @@ public class LoopManager : MonoBehaviour
         GetComponentInChildren<TextMeshProUGUI>().text = "Loops : " + loops.ToString();
     }
 
-    private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
+    private void SceneManager_sceneLoaded(Scene scene, LoadSceneMode arg1)
     {
-        if (arg0.name == "Level")
+        if (scene.name == "Level")
         {
+            currentSpells.Clear();
             maxHealth--;
             loops++;
 
             GetComponentInChildren<TextMeshProUGUI>().text = "Loops : " + loops.ToString();
+        }
+        if(scene.name == "MainMenu")
+        {
+            lastLoopSpells.Clear();
+            currentSpells.Clear();
         }
 
         maxHealth = Mathf.Max(maxHealth, 3);
@@ -50,21 +73,21 @@ public class LoopManager : MonoBehaviour
 
     private void Awake()
     {
-        OnGameStart();
+        //OnFirstStart();
     }
 
-    public void OnGameStart()
-    {
-        if (lastLoopSpells == null)
-            lastLoopSpells = new List<SpellData>();
+    //public void OnFirstStart()
+    //{
+    //    if (LastLoopSpells == null)
+    //        LastLoopSpells = new List<SpellData>();
 
-        int id = 0;
-        while(lastLoopSpells.Count < 2)
-        {
-            lastLoopSpells.Add(defaultSpells[id].data);
-            id++;
-        }
-    }
+    //    int id = 0;
+    //    while(LastLoopSpells.Count < 2)
+    //    {
+    //        LastLoopSpells.Add(defaultSpells[id].data);
+    //        id++;
+    //    }
+    //}
 
     public void OnGameEnd()
     {
