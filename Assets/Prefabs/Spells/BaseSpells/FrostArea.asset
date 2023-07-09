@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2f81f4292762374ea91c34c42718d9f, type: 3}
   m_Name: FrostArea
   m_EditorClassIdentifier: 
-  icon: {fileID: -243467881, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
-  description: "An area of \u200B\u200Bice that damages and slows enemies within
+  icon: {fileID: 1625274653, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+  description: "An area of \u200B\u200Bfire that damages and slows enemies within
     its radius."
   data:
-    type: 3
-    baseCooldown: 6
+    type: 0
+    baseCooldown: 4
     baseProjectileSpeed: 0
     heal: 0
     movespeedBonus: 0
     repeat: 0
     discharge: 0
     cooldownReduction: 0
-    damages: 1
+    damages: 2
     size: 1
     knockback: 5

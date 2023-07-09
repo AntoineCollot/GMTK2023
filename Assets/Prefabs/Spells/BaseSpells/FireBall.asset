@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: FireBall
   m_EditorClassIdentifier: 
   icon: {fileID: 1981614573, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
-  description: Launch a fire ball that deals damage and knocks back its target.
+  description: Launch an eletric ball that deals damage and knocks back its target.
   data:
     type: 1
     baseCooldown: 1
-    baseProjectileSpeed: 0
+    baseProjectileSpeed: 3
     heal: 0
     movespeedBonus: 0
     repeat: 0
@@ -25,4 +25,4 @@ MonoBehaviour:
     cooldownReduction: 0
     damages: 1
     size: 1
-    knockback: 5
+    knockback: 2
