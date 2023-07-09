@@ -88,11 +88,15 @@ public class ArenaManager : MonoBehaviour
         {
             spawnedEnemies.Add(bossEnnemy.GetComponent<Health>());
             bossEnnemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
+            IA bossIA = bossEnnemy.GetComponent<IA>();
+            bossIA.spells.Clear();
             for (int i = 0; i < previousSpell.Count; i++)
             {
-                bossEnnemy.GetComponent<IA>().spells[i] = previousSpell[i];
+                bossIA.spells.Add(previousSpell[i]);
             }
-            bossEnnemy.GetComponent<IA>().enabled = false;
+            bossIA.enabled = false;
+
+            SetUpEnnemies();
         } else
         {
             bossDoor.arena = this;
@@ -126,12 +130,15 @@ public class ArenaManager : MonoBehaviour
         }
         deathFxs.Clear();
 
-        for (int i = 0; i < maxEnnemiesNumber; i++) // créer le nombre d'ennemis max
+        int enemyCount = Random.Range(minEmmeniesNumber, maxEnnemiesNumber + 1);
+        for (int i = 0; i < enemyCount; i++) // créer le nombre d'ennemis max
         {
             GameObject ennemy = Instantiate(ennemyPrefab, ennemyParent);
             ennemy.transform.localPosition = Vector3.zero;
-            ennemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
+            Health health = ennemy.GetComponent<Health>();
+            health.onDie.AddListener(CheckWaveStatus);
             ennemy.SetActive(false);
+            spawnedEnemies.Add(health);
 
             GameObject spawnFx = Instantiate(spawnFxPrefab, fxFolder);
             GameObject deathFx = Instantiate(deathFxPrefab, fxFolder);
@@ -202,11 +209,10 @@ public class ArenaManager : MonoBehaviour
         {
             spawnPointAvailable.Add(spawnPoints[i]);
         }
-        int randomNumber = Random.Range(minEmmeniesNumber, maxEnnemiesNumber + 1);
-        for (int i = 0; i < randomNumber; i++)
+        for (int i = 0; i < spawnedEnemies.Count; i++)
         {
             int randomPoint = Random.Range(0, spawnPointAvailable.Count);
-            ennemyParent.GetChild(i).position = spawnPointAvailable[randomPoint].position;
+            spawnedEnemies[i].transform.position = spawnPointAvailable[randomPoint].position;
 
             spawnFxs[i].transform.position = spawnPointAvailable[randomPoint].position;
             spawnFxs[i].SetActive(true);
@@ -219,8 +225,7 @@ public class ArenaManager : MonoBehaviour
     IEnumerator ActivateEnnemy(int index)
     {
         yield return new WaitForSeconds(0.3f);
-        ennemyParent.transform.GetChild(index).gameObject.SetActive(true);
-        spawnedEnemies.Add(ennemyParent.GetChild(index).GetComponent<Health>());
+        spawnedEnemies[index].gameObject.SetActive(true);
     }
 
     public void CheckWaveStatus() // call every time a ennemy die

@@ -53,6 +53,11 @@ public class UIManager : MonoBehaviour
 
     public void SetTooltips()
     {
+        for (int i = 0; i < spellsRef.spells.Count; i++)
+        {
+            availableSpellData.Add(spellsRef.spells[i]);
+        }
+
         for (int i = 0; i < tooltips.Count; i++)
         {
             tooltips[i].SetActive(true);

@@ -66,6 +66,8 @@ public class Health : MonoBehaviour
         body.isKinematic = true;
         isDead = true;
         onDie.Invoke();
+
+        Destroy(gameObject, 3);
     }
 
     public void Heal(float amount)

@@ -38,7 +38,6 @@ public class Transition : MonoBehaviour
             ForFirst();
             return;
         }
-        Debug.Log("Assign");
         for (int i = 0; i < 3; i++)
         {
             arenaManager.previousSpell[i] = bossSpells[i];
