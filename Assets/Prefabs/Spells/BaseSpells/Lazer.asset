@@ -17,7 +17,7 @@ MonoBehaviour:
     enemy hit.
   data:
     type: 2
-    baseCooldown: 5
+    baseCooldown: 3
     baseProjectileSpeed: 0
     heal: 1
     movespeedBonus: 0
