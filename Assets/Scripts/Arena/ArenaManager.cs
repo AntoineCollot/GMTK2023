@@ -341,6 +341,14 @@ public class ArenaManager : MonoBehaviour
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
+    public void Loop(float time)
+    {
+        Time.timeScale = 1;
+        StartCoroutine(CutScene(time));
+        //transitionObject.defeat = true;
+        SceneManager.LoadScene("Level", LoadSceneMode.Single);
+    }
+
     public void ReturnToStart(float time)
     {
         Time.timeScale = 1;

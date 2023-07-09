@@ -1237,7 +1237,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2133735489}
         m_TargetAssemblyTypeName: ArenaManager, Assembly-CSharp
-        m_MethodName: ReturnToStart
+        m_MethodName: Loop
         m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3151,7 +3151,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'The last hero has been corrupted...
+  m_text: 'The hero has been corrupted...
 
     >Click to send a new hero!<'
   m_isRightToLeft: 0
@@ -13443,4 +13443,4 @@ MonoBehaviour:
   heartStates:
   - {fileID: -415481107, guid: 8ae6c10d4ce8ef84b96b871f32ec0cb0, type: 3}
   - {fileID: 1874749423, guid: 8ae6c10d4ce8ef84b96b871f32ec0cb0, type: 3}
-  victoryPanel: {fileID: 1058427742}
+  victoryPanel: {fileID: 1003727046}

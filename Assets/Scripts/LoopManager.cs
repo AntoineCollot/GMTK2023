@@ -61,6 +61,8 @@ public class LoopManager : MonoBehaviour
         }
         if(scene.name == "MainMenu")
         {
+            loops = 0;
+            maxHealth = 11;
             lastLoopSpells.Clear();
             currentSpells.Clear();
         }

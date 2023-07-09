@@ -22,6 +22,13 @@ public class EndCustcene : MonoBehaviour
 
     public void TriggerEnd()
     {
+        PlayerMovement.Instance.transform.GetComponent<Collider2D>().enabled = false;
+        ArenaManager arena = FindObjectOfType<ArenaManager>();
+        foreach (var ene in arena.spawnedEnemies)
+        {
+            Destroy(ene.gameObject);
+        }
+        arena.spawnedEnemies.Clear();
         StartCoroutine(EndCutscene());
     }
 
