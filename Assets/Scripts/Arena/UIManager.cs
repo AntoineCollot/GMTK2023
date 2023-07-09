@@ -61,6 +61,8 @@ public class UIManager : MonoBehaviour
         {
             for (int i = 0; i < 3; i++)
             {
+                if (i >= LoopManager.currentSpells.Count)
+                    break;
                 actualSpells[i].sprite = LoopManager.currentSpells[i].icon;
                 cooldowns[i].sprite = LoopManager.currentSpells[i].icon;
             }

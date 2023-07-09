@@ -11,7 +11,7 @@ public class ArenaManager : MonoBehaviour
     [Header("Player")]
     GameObject player;
     public float transitionSpeed;
-    
+
 
     [Header("Arena start")]
     public Transform playerSpawn; // ou faire spawn le fake player
@@ -91,15 +91,16 @@ public class ArenaManager : MonoBehaviour
             bossEnnemy.GetComponent<Health>().onDie.AddListener(CheckWaveStatus);
             IA bossIA = bossEnnemy.GetComponent<IA>();
             bossIA.spells.Clear();
-            for (int i = 0; i < LoopManager.lastLoopSpells.Count; i++)
+            for (int i = 0; i < LoopManager.LastLoopSpells.Count; i++)
             {
-                bossIA.spells.Add(LoopManager.lastLoopSpells[i]);
+                bossIA.spells.Add(LoopManager.LastLoopSpells[i]);
             }
             bossIA.enabled = false;
-        } else
-        {
-            bossDoor.arena = this;
         }
+        //else
+        //{
+        //    bossDoor.arena = this;
+        //}
 
         StartCoroutine(StartArena());
     }
@@ -146,10 +147,10 @@ public class ArenaManager : MonoBehaviour
             spawnFx.SetActive(false);
             deathFx.SetActive(false);
 
-            int randomSpell = Random.Range(0, LoopManager.lastLoopSpells.Count);
+            int randomSpell = Random.Range(0, LoopManager.LastLoopSpells.Count);
             IA _ia = ennemyParent.GetChild(i).GetComponent<IA>();
             _ia.spells.Clear(); // enlève ses spells
-            _ia.spells.Add(LoopManager.lastLoopSpells[randomSpell]); // lui ajoute un spell aléatoire
+            _ia.spells.Add(LoopManager.LastLoopSpells[randomSpell]); // lui ajoute un spell aléatoire
         }
     }
 
@@ -161,7 +162,7 @@ public class ArenaManager : MonoBehaviour
         player.GetComponent<CircleCollider2D>().isTrigger = true;
 
         yield return new WaitForSeconds(1); // temps d'attente, le temps que le joueur comprenne son environement
-        
+
         if (isBoss) // si salle du boss
         {
             bossEnnemy.transform.position = bossSpawnPoint.position;
@@ -186,7 +187,8 @@ public class ArenaManager : MonoBehaviour
         {
             yield return new WaitForSeconds(2);
             GetComponent<UIManager>().SetTooltips();
-        } else
+        }
+        else
         {
             bossEnnemy.GetComponent<IA>().enabled = true;
             SpawnWave();
@@ -213,8 +215,11 @@ public class ArenaManager : MonoBehaviour
             int randomPoint = Random.Range(0, spawnPointAvailable.Count);
             spawnedEnemies[i].transform.position = spawnPointAvailable[randomPoint].position;
 
-            spawnFxs[i].transform.position = spawnPointAvailable[randomPoint].position;
-            spawnFxs[i].SetActive(true);
+            if (i < spawnFxs.Count)
+            {
+                spawnFxs[i].transform.position = spawnPointAvailable[randomPoint].position;
+                spawnFxs[i].SetActive(true);
+            }
             StartCoroutine(ActivateEnnemy(i));
 
             spawnPointAvailable.RemoveAt(randomPoint);
@@ -253,7 +258,8 @@ public class ArenaManager : MonoBehaviour
             if (!isBoss) // si l'arene terminé n'est pas la salle du boss
             {
                 StartCoroutine(EndWave());
-            } else // si c'est la salle du boss
+            }
+            else // si c'est la salle du boss
             {
                 EndBoss();
             }
@@ -281,7 +287,7 @@ public class ArenaManager : MonoBehaviour
 
     public IEnumerator DoorAlignement()
     {
-       // transitionObject.SaveParameters(isBoss);
+        // transitionObject.SaveParameters(isBoss);
 
         lockToken.SetOn(true);
         player.GetComponent<CircleCollider2D>().isTrigger = true;
@@ -311,15 +317,16 @@ public class ArenaManager : MonoBehaviour
                 if (dist < 0.1f)
                 {
                     PlayerMovement.Instance.SetAnimationDirection(Direction.Up);
-                    yield return new WaitForSeconds(0.5f);                    
+                    yield return new WaitForSeconds(0.5f);
                     StartCoroutine(CutScene(5));
                     up = true;
                 }
-            } else
+            }
+            else
             {
                 Vector3 nextPoint = new Vector3(player.transform.position.x, bossDoor.transform.position.y + 5, player.transform.position.z);
-                Vector3 newPos = Vector3.Lerp(player.transform.position, nextPoint, transitionSpeed * Time.deltaTime *  0.5f);
-                player.transform.position = newPos;                
+                Vector3 newPos = Vector3.Lerp(player.transform.position, nextPoint, transitionSpeed * Time.deltaTime * 0.5f);
+                player.transform.position = newPos;
             }
 
             yield return null;
@@ -359,7 +366,7 @@ public class ArenaManager : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         float time = 1;
-        while (time > 0) 
+        while (time > 0)
         {
             time -= Time.deltaTime;
             Time.timeScale = time;

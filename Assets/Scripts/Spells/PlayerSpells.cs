@@ -54,6 +54,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
             for (int i = 0; i < LoopManager.currentSpells.Count; i++)
             {
                 spells[i] = LoopManager.currentSpells[i];
+                hasSpell[i] = true;
             }
         }
     }
