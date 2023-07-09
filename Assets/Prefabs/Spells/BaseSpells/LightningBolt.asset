@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d2f81f4292762374ea91c34c42718d9f, type: 3}
-  m_Name: FireBall
+  m_Name: LightningBolt
   m_EditorClassIdentifier: 
-  icon: {fileID: -46840776, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+  icon: {fileID: 21300000, guid: 678eb7ec1797791449f7ddaf20d921f8, type: 3}
   description: Launch an eletric ball that deals damage and knocks back its target.
   data:
-    icon: {fileID: -46840776, guid: e65a57036242cfb4495f1579189bb9da, type: 3}
+    icon: {fileID: 21300000, guid: 678eb7ec1797791449f7ddaf20d921f8, type: 3}
     description: Launch an eletric ball that deals damage and knocks back its target.
     type: 1
     baseCooldown: 1

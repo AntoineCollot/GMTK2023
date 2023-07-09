@@ -28,5 +28,5 @@ MonoBehaviour:
     discharge: 0
     cooldownReduction: 0
     damages: 1
-    size: 3
+    size: 2
     knockback: 0
