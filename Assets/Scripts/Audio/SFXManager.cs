@@ -7,22 +7,18 @@ using UnityEditor;
 
 public enum GlobalSFX
 {
-    Jump,
-    Land,
+    Explosion,
+    Projectile,
+    Laser,
+    Dash,
+    EnemyDamaged,
     EnemyDeath,
-    CatKill,
-    EagleKill,
-    CatAttack,
-    EagleAttack,
-    Hit,
-    Slide,
-    Kick,
-    Dive,
-    DiveLanding,
-    PlayerDeath,
+    PlayerDamaged,
+    GameOver,
+    RoomCleared,
     ButtonClick,
-    ProjectileExplosion,
-    LevelCleared,
+    UpgradeSelected,
+    EnemySpawn,
 }
 public class SFXManager : MonoBehaviour
 {

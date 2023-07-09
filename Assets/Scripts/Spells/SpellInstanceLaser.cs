@@ -59,6 +59,9 @@ public class SpellInstanceLaser : SpellInstance
         yield return new WaitForSeconds(AnticipationTime);
         spriteRenderer.enabled = true;
 
+        //Sound
+        SFXManager.PlaySound(GlobalSFX.Laser);
+
         source.OnSpellCastFinished();
 
         for (int i = 0; i < LASER_HIT_COUNT; i++)

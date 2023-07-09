@@ -1,12 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable, IAnimable
+public class PlayerMovement : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable
 {
     InputMap inputMap;
     Rigidbody2D body;
     public Vector2 movementInputs { get; private set; }
+    public Vector2 lastNonZeroMovementInputs { get; private set; }
 
     //Animations
     Direction animationDirection;
@@ -41,6 +43,16 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable,
         body = GetComponent<Rigidbody2D>();
     }
 
+    void Start()
+    {
+        GetComponent<Health>().onDie.AddListener(OnDie);
+    }
+
+    private void OnDie()
+    {
+        enabled = false;
+    }
+
     private void OnEnable()
     {
         inputMap.Enable();
@@ -63,10 +75,13 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable,IMoveSpeedBonusable,
 
         Vector2 rawInputs = inputMap.Gameplay.Movement.ReadValue<Vector2>();
         if (rawInputs.magnitude > 0.7f)
+        {
+            lastNonZeroMovementInputs = rawInputs.normalized;
             animationDirection = rawInputs.ToDirection();
+        }
 
-         movementInputs = inputMap.Gameplay.Movement.ReadValue<Vector2>().normalized;
-         desiredVelocity = movementInputs * currentMoveSpeed;
+        movementInputs = rawInputs.normalized;
+        desiredVelocity = movementInputs * currentMoveSpeed;
     }
 
     private void FixedUpdate()

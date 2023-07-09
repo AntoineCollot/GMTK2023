@@ -29,5 +29,8 @@ public class SpellInstanceProjectile : SpellInstance
         isCastingToken.SetOn(false);
         source.OnSpellCastFinished();
         Destroy(gameObject);
+
+        //Sound
+        SFXManager.PlaySound(GlobalSFX.Projectile);
     }
 }

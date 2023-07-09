@@ -33,6 +33,9 @@ public class SpellInstanceCac : SpellInstance
 
         anticipationCircleOutside.gameObject.SetActive(false);
 
+        //Sound
+        SFXManager.PlaySound(GlobalSFX.Explosion);
+
         ParticleSystem[] particles = GetComponentsInChildren<ParticleSystem>();
         foreach (var particle in particles)
         {

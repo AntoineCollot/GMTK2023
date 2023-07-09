@@ -14,6 +14,7 @@ public class PlayerDash : MonoBehaviour
     CompositeStateToken isDashingToken;
     InputMap inputMap;
     Rigidbody2D body;
+    Health health;
 
     public UnityEvent onDash = new UnityEvent();
     public UnityEvent onDashEnd = new UnityEvent();
@@ -28,6 +29,7 @@ public class PlayerDash : MonoBehaviour
 
         movement = GetComponent<PlayerMovement>();
         body = GetComponent<Rigidbody2D>();
+        health = GetComponent<Health>();
 
         isDashingToken = new CompositeStateToken();
     }
@@ -35,6 +37,7 @@ public class PlayerDash : MonoBehaviour
     private void Start()
     {
         movement.lockMovementState.Add(isDashingToken);
+        health.isInvicibleState.Add(isDashingToken);
     }
 
     private void OnEnable()
@@ -49,12 +52,15 @@ public class PlayerDash : MonoBehaviour
 
     private void OnDashPerformed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
     {
-        if (PlayerMovement.Instance.lockMovementState.IsOn)
+        if (PlayerMovement.Instance.lockMovementState.IsOn || health.isDead)
             return;
 
         isDashingToken.SetOn(true);
-        body.velocity = movement.movementInputs * dashVelocity;
+        body.velocity = movement.lastNonZeroMovementInputs * dashVelocity;
         onDash.Invoke();
+
+        //Sound
+        SFXManager.PlaySound(GlobalSFX.Dash);
 
         Invoke("EndDash", dashDuration);
     }

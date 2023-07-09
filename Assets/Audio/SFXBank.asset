@@ -13,32 +13,24 @@ MonoBehaviour:
   m_Name: SFXBank
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 293dd3c3f8fdf2b45ba341e89dd2681a, type: 3}
+  - {fileID: 8300000, guid: 029ac5dc71721894798954403bc8a3a8, type: 3}
+  - {fileID: 8300000, guid: 0edf9b677c6410047ab9ee484c3fcdce, type: 3}
+  - {fileID: 8300000, guid: bd0966b671b48c24c96b0aa60979f390, type: 3}
+  - {fileID: 8300000, guid: d17c3549cf1b4d2468c2228dc3ce92b4, type: 3}
+  - {fileID: 8300000, guid: b877576b9f6b8cd43887e650201f8ad8, type: 3}
+  - {fileID: 8300000, guid: d17c3549cf1b4d2468c2228dc3ce92b4, type: 3}
+  - {fileID: 8300000, guid: 28160991a4f77c3408af4eb01113aa22, type: 3}
+  - {fileID: 8300000, guid: c65944999b33ea54dbe9ccdacb97a2ce, type: 3}
+  - {fileID: 8300000, guid: b9afcb89a11ba954cbcf9b2ed4aa942f, type: 3}
+  - {fileID: 8300000, guid: c65944999b33ea54dbe9ccdacb97a2ce, type: 3}
+  - {fileID: 8300000, guid: 6d479a9d0f6cb4949ae98c50c8f490d0, type: 3}
   volumes:
+  - 0.624
   - 0.5
   - 0.5
   - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
-  - 0.5
+  - 0.316
   - 0.5
   - 0.5
   - 0.5

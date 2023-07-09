@@ -46,6 +46,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
     CharacterAnimations characterAnimations;
 
     public Source Source => Source.Enemy;
+    public Transform SourceTransform => transform;
 
     private void Start()
     {
@@ -55,6 +56,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
         characterAnimations = GetComponentInChildren<CharacterAnimations>();
         isCastingState = new CompositeState();
         health = GetComponent<Health>();
+        health.onDie.AddListener(OnDie);
         body = GetComponent<Rigidbody2D>();
         player = PlayerMovement.Instance.transform;
     }
@@ -218,6 +220,11 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
     public void ApplyKnockback(Vector2 direction, float amount)
     {
         body.AddForce(direction * amount, ForceMode2D.Impulse);
+    }
+
+    private void OnDie()
+    {
+        enabled = false;
     }
 
     public void UseSpell()

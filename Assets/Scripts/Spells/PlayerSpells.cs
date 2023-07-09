@@ -20,6 +20,7 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
     CharacterAnimations characterAnimations;
 
     public Source Source => Source.Player;
+    public Transform SourceTransform => transform;
 
     private void Awake()
     {
