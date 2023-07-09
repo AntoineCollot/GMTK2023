@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -46,6 +47,12 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
     private void Start()
     {
         PlayerMovement.Instance.lockMovementState.Add(isCastingState);
+
+        //Getspells
+        for (int i = 0; i < LoopManager.currentSpells.Count; i++)
+        {
+            spells[i] = LoopManager.currentSpells[i];
+        }
     }
 
     private void Spell1Performed(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
@@ -134,11 +141,19 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
     {
         hasSpell[id] = true;
         spells[id] = data;
+
+        UpdateLoopSpells();
     }
 
     public void ApplyUpgrade(int toSpellID, in SpellUpgradeData upgradeData)
     {
         spells[toSpellID].ApplyUpgrades(upgradeData);
+        UpdateLoopSpells();
+    }
+
+    void UpdateLoopSpells()
+    {
+        LoopManager.currentSpells = spells.ToList();
     }
 
     public void OnSpellCastStarted()

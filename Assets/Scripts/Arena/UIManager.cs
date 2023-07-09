@@ -49,6 +49,19 @@ public class UIManager : MonoBehaviour
         {
             firstPhrase.SetActive(true);
         }
+
+        UpdateSprites();
+    }
+
+    void UpdateSprites()
+    {
+        for (int i = 0; i < 3;i++)
+        {
+            actualSpells[i].sprite = LoopManager.currentSpells[i].icon;
+            cooldowns[i].sprite = LoopManager.currentSpells[i].icon;
+        }
+
+        maxHealth = LoopManager.Instance.maxHealth;
     }
 
     public void SetTooltips()

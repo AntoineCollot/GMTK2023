@@ -15,7 +15,9 @@ public struct SpellData
     public float MoveSpeedBonusMult => Curves.QuadEaseOut(MOVE_SPEED_BONUS_MIN, MOVE_SPEED_BONUS_MAX, movespeedBonus);
     public float Cooldown => baseCooldown * Mathf.Max(0.25f, (1 - cooldownReduction * COOLDOWN_REDUCTION_RATIO));
 
-   [Header("Base (Not Upgradable)")]
+    [Header("Base (Not Upgradable)")]
+    public Sprite icon;
+    public string description;
     public SpellType type;
     public float baseCooldown;
     public float baseProjectileSpeed;
