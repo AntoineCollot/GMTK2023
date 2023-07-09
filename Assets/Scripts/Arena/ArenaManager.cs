@@ -272,6 +272,7 @@ public class ArenaManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         bossDoor.Open(); // ouvre la porte
 
+        GetComponent<UIManager>().choiceUI.SetActive(true);
         GetComponent<UIManager>().SetTooltips(); // offre 3 améliorations
     }
 
@@ -280,7 +281,6 @@ public class ArenaManager : MonoBehaviour
         // ?
         bossDeathFX.transform.position = bossEnnemy.transform.position;
         bossDeathFX.SetActive(true);
-        Debug.Log("Victory");
         // start animation
         GetComponent<UIManager>().Victory();
     }

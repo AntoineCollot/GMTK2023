@@ -73,8 +73,6 @@ public class UIManager : MonoBehaviour
 
     public void SetTooltips()
     {
-        choiceUI.SetActive(true);
-
         for (int i = 0; i < spellsRef.spells.Count; i++)
         {
             availableSpellData.Add(spellsRef.spells[i]);
