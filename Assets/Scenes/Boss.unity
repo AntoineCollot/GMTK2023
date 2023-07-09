@@ -813,6 +813,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2133735492}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Healed
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6277529771203572585, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: onHeal.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 6612353659664997490, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
       propertyPath: m_RootOrder
@@ -11874,6 +11909,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b789f23ff0bd644bb77d9cbfdd5de1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  firstPhrase: {fileID: 0}
   tooltips:
   - {fileID: 1137566653}
   - {fileID: 1819346422}
