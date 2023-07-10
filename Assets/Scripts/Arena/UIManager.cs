@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
         //Events
         PlayerSpells.Instance.onSpellCastFinished.AddListener(StartCooldown);
         PlayerSpells.Instance.GetComponent<Health>().onHit.AddListener(CheckHealth);
-        PlayerSpells.Instance.GetComponent<Health>().onHeal.AddListener(Healed);
+        PlayerSpells.Instance.GetComponent<Health>().onHeal.AddListener(CheckHealth);
 
         ArenaManager arena = GetComponent<ArenaManager>();
         if (!arena.isBoss && LoopManager.Instance.loops == 0)
@@ -158,30 +158,36 @@ public class UIManager : MonoBehaviour
     public void CheckHealth()
     {
         float hp = PlayerSpells.Instance.GetComponent<Health>().health;
-        int life = Mathf.CeilToInt(hp);
-        for (int i = maxHealth; i > life && i > 0; i--)
+        int life = Mathf.RoundToInt(hp);
+        life = Mathf.Clamp(life, 0, 10);
+
+        for (int i = 0; i < maxHealth; i++)
         {
-            if (FullHearts[i - 1].GetComponent<Image>().sprite == heartStates[0])
+            if (i >= life && FullHearts[i].GetComponent<Image>().sprite == heartStates[0])
             {
-                FullHearts[i - 1].GetComponent<Animator>().SetTrigger("Hit");
+                FullHearts[i].GetComponent<Animator>().SetTrigger("Hit");
+            } 
+            if (i < life && FullHearts[i].GetComponent<Image>().sprite == heartStates[1])
+            {
+                FullHearts[i].GetComponent<Animator>().SetTrigger("Heal");
             }
         }
     }
 
-    public void Healed()
-    {
-        int life = Mathf.FloorToInt(PlayerSpells.Instance.GetComponent<Health>().health);
-        for (int i = 0; i < life; i++)
-        {
-            if (life < maxHealth - 1)
-            {
-                if (FullHearts[i].GetComponent<Image>().sprite == heartStates[1])
-                {
-                    FullHearts[i].GetComponent<Animator>().SetTrigger("Heal");
-                }
-            }
-        }
-    }
+    //public void Healed()
+    //{
+    //    int life = Mathf.FloorToInt(PlayerSpells.Instance.GetComponent<Health>().health);
+    //    for (int i = 0; i < life; i++)
+    //    {
+    //        if (life < maxHealth - 1)
+    //        {
+    //            if (FullHearts[i].GetComponent<Image>().sprite == heartStates[1])
+    //            {
+    //                FullHearts[i].GetComponent<Animator>().SetTrigger("Heal");
+    //            }
+    //        }
+    //    }
+    //}
 
     public void StartCooldown()
     {

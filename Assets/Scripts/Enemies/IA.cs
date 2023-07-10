@@ -257,7 +257,8 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
             damages *= 1 / SpellInstanceLaser.LASER_HIT_COUNT;
 
         if (data.heal > 0)
-            health.Heal(damages * data.heal * SpellData.HEAL_PER_DAMAGE);
+            //  health.Heal(damages * data.heal * SpellData.HEAL_PER_DAMAGE);
+            health.Heal(data.heal * SpellData.HEAL_PER_DAMAGE);
     }
 
     public void GainMoveSpeedBonus(float mult)
