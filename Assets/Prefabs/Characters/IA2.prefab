@@ -319,6 +319,7 @@ MonoBehaviour:
   projectileIdealRange: 3.5
   cacIdealRange: 1
   laserIdealRange: 3
+  hitLag: 0.5
   spells:
   - icon: {fileID: 0}
     description: 
@@ -346,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 3
-  maxHealth: 0
+  maxHealth: 3
   invicibleTime: 0.1
   team: 1
   onDie:

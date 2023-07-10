@@ -19,6 +19,7 @@ public class CharacterAnimations : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         PlayerDash dash = GetComponentInParent<PlayerDash>();
         GetComponentInParent<Health>().onDie.AddListener(OnDie);
+        GetComponentInParent<Health>().onHit.AddListener(OnEnnemyHit);
         animable = GetComponentInParent<IAnimable>();
         if (dash != null)
         {
@@ -32,7 +33,8 @@ public class CharacterAnimations : MonoBehaviour
 
     public void OnEnnemyHit()
     {
-        anim.SetTrigger("IsHit");
+        if (transform.parent.TryGetComponent(out IA _ia))
+            anim.SetTrigger("IsHit");
     }
 
     private void OnDie()

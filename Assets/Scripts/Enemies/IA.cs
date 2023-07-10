@@ -28,6 +28,8 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
     public enum State { AfterCastFreeze, MoveInSpellRange, Casting, WaitForCooldown }
     State state = State.MoveInSpellRange;
     const float AFTER_CASTING_MOVEMENT_COOLDOWN = 1;
+    bool isHit;
+    public float hitLag;
 
     [Header("Spells")]
     public List<SpellData> spells = new List<SpellData>();
@@ -57,6 +59,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
 
         isCastingState = new CompositeState();
         health = GetComponent<Health>();
+        health.onHit.AddListener(OnHit);
         health.onDie.AddListener(OnDie);
         body = GetComponent<Rigidbody2D>();
         player = PlayerMovement.Instance.transform;
@@ -64,13 +67,17 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
 
     private void Update()
     {
+        if (!isHit)
+        {
             AIBehaviourUpdate();
 
             ComputeDesiredVelocity();
+        }
     }
 
     private void FixedUpdate()
     {
+
         Vector2 velocity = body.velocity;
 
         velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxSpeedChange * Time.fixedDeltaTime);
@@ -223,6 +230,20 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
         body.AddForce(direction * amount, ForceMode2D.Impulse);
     }
 
+    private void OnHit()
+    {
+        StartCoroutine(HitLag());
+    }
+
+    private IEnumerator HitLag()
+    {
+        isHit = true;
+        transform.GetChild(0).GetComponent<Animator>().speed = 0;
+        yield return new WaitForSeconds(hitLag);
+        isHit = false;
+        transform.GetChild(0).GetComponent<Animator>().speed = 1f / 6f;
+    }
+
     private void OnDie()
     {
         enabled = false;
@@ -253,7 +274,6 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
 
     void OnHitCallback(Health hitHealth, SpellData data)
     {
-        Debug.Log("hit");
         float damages = data.damages;
         if (data.type == SpellType.Laser)
             damages *= 1 / SpellInstanceLaser.LASER_HIT_COUNT;
