@@ -21,7 +21,7 @@ MonoBehaviour:
       its radius."
     type: 0
     baseCooldown: 4
-    baseProjectileSpeed: 0
+    baseProjectileSpeed: 3
     heal: 0
     movespeedBonus: 0
     repeat: 0

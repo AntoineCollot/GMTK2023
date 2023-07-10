@@ -21,12 +21,12 @@ MonoBehaviour:
       each enemy hit.
     type: 2
     baseCooldown: 3
-    baseProjectileSpeed: 0
-    heal: 5
+    baseProjectileSpeed: 3
+    heal: 3
     movespeedBonus: 0
     repeat: 0
     discharge: 0
     cooldownReduction: 0
-    damages: 3
+    damages: 2
     size: 2
     knockback: 0
