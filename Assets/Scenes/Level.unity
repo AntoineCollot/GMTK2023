@@ -666,7 +666,7 @@ PrefabInstance:
     - target: {fileID: 6530935660847164250, guid: f80f968a5fcb56042b2590fe9c458c3d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 6530935660847164250, guid: f80f968a5fcb56042b2590fe9c458c3d,
         type: 3}
@@ -1028,7 +1028,7 @@ PrefabInstance:
     - target: {fileID: 4596781147530080318, guid: 49650f4191060ca44808c4e0f421f3c5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4596781147530080318, guid: 49650f4191060ca44808c4e0f421f3c5,
         type: 3}
@@ -2884,7 +2884,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 642880734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.32, y: -1.75, z: 0}
+  m_LocalPosition: {x: 0.5, y: -0.83, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3269,7 +3269,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 769979267}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.29, y: -5.26, z: 0}
+  m_LocalPosition: {x: 0.5, y: -2.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5331,7 +5331,7 @@ PrefabInstance:
     - target: {fileID: 6612353659664997490, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 6612353659664997490, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
@@ -8664,7 +8664,7 @@ PrefabInstance:
     - target: {fileID: 3811795632995355309, guid: dcc4bc943396e4b4fb1977464167662d,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3811795632995355309, guid: dcc4bc943396e4b4fb1977464167662d,
         type: 3}
@@ -8953,141 +8953,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &1979701081
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1979701082}
-  - component: {fileID: 1979701083}
-  m_Layer: 0
-  m_Name: TransitionObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1979701082
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979701081}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 275.92224, y: 205.6413, z: -11.611214}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 12
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1979701083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1979701081}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9dea0cd684728488442a878b10acfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arenaManager: {fileID: 0}
-  firstTime: 1
-  defeat: 0
-  bossSpells:
-  - icon: {fileID: 0}
-    description: 
-    type: 0
-    baseCooldown: 0
-    baseProjectileSpeed: 0
-    heal: 0
-    movespeedBonus: 0
-    repeat: 0
-    discharge: 0
-    cooldownReduction: 0
-    damages: 0
-    size: 0
-    knockback: 0
-  - icon: {fileID: 0}
-    description: 
-    type: 0
-    baseCooldown: 0
-    baseProjectileSpeed: 0
-    heal: 0
-    movespeedBonus: 0
-    repeat: 0
-    discharge: 0
-    cooldownReduction: 0
-    damages: 0
-    size: 0
-    knockback: 0
-  - icon: {fileID: 0}
-    description: 
-    type: 0
-    baseCooldown: 0
-    baseProjectileSpeed: 0
-    heal: 0
-    movespeedBonus: 0
-    repeat: 0
-    discharge: 0
-    cooldownReduction: 0
-    damages: 0
-    size: 0
-    knockback: 0
-  bossName: 
-  playerSpells:
-  - icon: {fileID: 0}
-    description: 
-    type: 0
-    baseCooldown: 0
-    baseProjectileSpeed: 0
-    heal: 0
-    movespeedBonus: 0
-    repeat: 0
-    discharge: 0
-    cooldownReduction: 0
-    damages: 0
-    size: 0
-    knockback: 0
-  - icon: {fileID: 0}
-    description: 
-    type: 0
-    baseCooldown: 0
-    baseProjectileSpeed: 0
-    heal: 0
-    movespeedBonus: 0
-    repeat: 0
-    discharge: 0
-    cooldownReduction: 0
-    damages: 0
-    size: 0
-    knockback: 0
-  - icon: {fileID: 0}
-    description: 
-    type: 0
-    baseCooldown: 0
-    baseProjectileSpeed: 0
-    heal: 0
-    movespeedBonus: 0
-    repeat: 0
-    discharge: 0
-    cooldownReduction: 0
-    damages: 0
-    size: 0
-    knockback: 0
-  playerhealth: 0
-  playerMaxHealth: 0
-  playerName: 
-  spellsIcons:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &1988633499
 GameObject:
   m_ObjectHideFlags: 0
@@ -12675,7 +12540,7 @@ PrefabInstance:
     - target: {fileID: 1353814022632030138, guid: 5a35db8f42f3e3747b14e2effac0ea70,
         type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1353814022632030138, guid: 5a35db8f42f3e3747b14e2effac0ea70,
         type: 3}
