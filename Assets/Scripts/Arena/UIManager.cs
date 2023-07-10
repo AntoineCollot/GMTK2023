@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
         PlayerSpells.Instance.GetComponent<Health>().onHeal.AddListener(Healed);
 
         ArenaManager arena = GetComponent<ArenaManager>();
-        if (!arena.isBoss)
+        if (!arena.isBoss && LoopManager.Instance.loops == 0)
         {
             firstPhrase.SetActive(true);
         }

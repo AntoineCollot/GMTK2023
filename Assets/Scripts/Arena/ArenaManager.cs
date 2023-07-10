@@ -156,6 +156,7 @@ public class ArenaManager : MonoBehaviour
 
     IEnumerator StartArena()
     {
+        float waitTime = 0;
         player.transform.position = playerSpawn.position;
         lockToken.SetOn(true);
         PlayerMovement.Instance.SetAnimationDirection(Direction.Up);
@@ -165,6 +166,7 @@ public class ArenaManager : MonoBehaviour
 
         if (isBoss) // si salle du boss
         {
+            waitTime = 0.1f;
             bossEnnemy.transform.position = bossSpawnPoint.position;
             bossEnnemy.SetActive(true);
         }
@@ -185,7 +187,14 @@ public class ArenaManager : MonoBehaviour
 
         if (!isBoss)
         {
-            yield return new WaitForSeconds(2);
+            if (LoopManager.Instance.loops == 0)
+            {
+                waitTime = 2;
+            } else
+            {
+                waitTime = 0.5f;
+            }
+            yield return new WaitForSeconds(waitTime);
             GetComponent<UIManager>().SetTooltips();
         }
         else
