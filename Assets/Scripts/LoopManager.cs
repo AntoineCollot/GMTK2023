@@ -72,6 +72,7 @@ public class LoopManager : MonoBehaviour
 
         Health playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
         playerHealth.health = Mathf.Min(playerHealth.health, maxHealth);
+        playerHealth.maxHealth = maxHealth;
     }
 
     private void Awake()

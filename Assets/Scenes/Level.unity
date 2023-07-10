@@ -5383,6 +5383,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7018796430985639678, guid: 547fe4fb071f6e547965c810a3031dad,
+        type: 3}
+      propertyPath: dashVelocity
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 9192277585890190954, guid: 547fe4fb071f6e547965c810a3031dad,
         type: 3}
       propertyPath: m_Name
@@ -12334,7 +12339,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 65fea7cdee92a0040abd18888084ed98, type: 2}
   - {fileID: 11400000, guid: dc670008bf978a6419f6bb792b0079e8, type: 2}
   - {fileID: 11400000, guid: 20a2298f7a28d9d40a0060e7fad68427, type: 2}
-  - {fileID: 11400000, guid: a5cc73affa38b96428de783ea0312ff2, type: 2}
 --- !u!114 &2133735492
 MonoBehaviour:
   m_ObjectHideFlags: 0

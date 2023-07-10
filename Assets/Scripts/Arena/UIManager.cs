@@ -21,10 +21,10 @@ public class UIManager : MonoBehaviour
     public GameObject choiceUI;
 
     [Header("Health")]
-    public int maxHealth;
     public List<GameObject> FullHearts;
     public List<GameObject> blockHearts;
     public List<Sprite> heartStates;
+    private int maxHealth;
 
     [Header("Victory")]
     public GameObject victoryPanel;
@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
             availableSpellData.Add(spellsRef.spells[i]);
         }
 
+        UpdateSprites();
         InitiateHealth();
 
         //Events
@@ -51,8 +52,6 @@ public class UIManager : MonoBehaviour
         {
             firstPhrase.SetActive(true);
         }
-
-        UpdateSprites();
     }
 
     void UpdateSprites()

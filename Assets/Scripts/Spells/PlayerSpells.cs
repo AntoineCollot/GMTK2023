@@ -124,8 +124,11 @@ public class PlayerSpells : MonoBehaviour, ICastSpell
         if (data.type == SpellType.Laser)
             damages *= 1 / SpellInstanceLaser.LASER_HIT_COUNT;
 
-        if (data.heal>0)
-            health.Heal(damages * data.heal * SpellData.HEAL_PER_DAMAGE);
+        if (data.heal > 0)
+        {
+            // health.Heal(damages * data.heal * SpellData.HEAL_PER_DAMAGE);
+            health.Heal(data.heal * SpellData.HEAL_PER_DAMAGE);
+        }
     }
 
     //1 full cooldown, <0 spell available

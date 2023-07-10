@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     public float health;
+    public int maxHealth;
     Material instancedMaterial;
     public bool isDead { get; private set; }
     public CompositeState isInvicibleState = new CompositeState();
@@ -73,6 +74,7 @@ public class Health : MonoBehaviour
     public void Heal(float amount)
     {
         health += amount;
+        health = Mathf.Clamp(health, 0, maxHealth);
         onHeal.Invoke();
     }
 }

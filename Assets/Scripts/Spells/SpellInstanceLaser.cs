@@ -12,7 +12,7 @@ public class SpellInstanceLaser : SpellInstance
     float laserLength;
 
     const float LASER_HIT_INTERVAL = 0.2f;
-    public const float LASER_HIT_COUNT = 5;
+    public const float LASER_HIT_COUNT = 3;
 
     public float LaserWidth => transform.localScale.y;
 

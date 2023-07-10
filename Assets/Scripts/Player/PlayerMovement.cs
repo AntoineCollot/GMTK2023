@@ -106,6 +106,7 @@ public class PlayerMovement : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable
     {
         lastMoveSpeedBonusTime = Time.time;
         moveSpeedBonusMult = mult;
+        Debug.Log(lastMoveSpeedBonusTime + " | " + moveSpeedBonusMult);
     }
 
     public void SetAnimationDirection(Direction direction)
