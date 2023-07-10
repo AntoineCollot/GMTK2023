@@ -220,18 +220,24 @@ public class ArenaManager : MonoBehaviour
             spawnPointAvailable.Add(spawnPoints[i]);
         }
         for (int i = 0; i < spawnedEnemies.Count; i++)
-        {
-            int randomPoint = Random.Range(0, spawnPointAvailable.Count);
-            spawnedEnemies[i].transform.position = spawnPointAvailable[randomPoint].position;
-
-            if (i < spawnFxs.Count)
+        {            
+            if (spawnedEnemies[i].gameObject == bossEnnemy)
             {
-                spawnFxs[i].transform.position = spawnPointAvailable[randomPoint].position;
-                spawnFxs[i].SetActive(true);
-            }
-            StartCoroutine(ActivateEnnemy(i));
+                spawnedEnemies[i].transform.position = bossSpawnPoint.position;
+            } else
+            {
+                int randomPoint = Random.Range(0, spawnPointAvailable.Count);
+                spawnedEnemies[i].transform.position = spawnPointAvailable[randomPoint].position;
 
-            spawnPointAvailable.RemoveAt(randomPoint);
+                if (i < spawnFxs.Count)
+                {
+                    spawnFxs[i].transform.position = spawnPointAvailable[randomPoint].position;
+                    spawnFxs[i].SetActive(true);
+                }
+                StartCoroutine(ActivateEnnemy(i));
+
+                spawnPointAvailable.RemoveAt(randomPoint);
+            }            
         }
     }
 
@@ -310,7 +316,7 @@ public class ArenaManager : MonoBehaviour
                 Vector3 firstPoint = new Vector3(bossDoor.transform.position.x, player.transform.position.y, player.transform.position.z);
                 float dist = Vector3.Distance(player.transform.position, firstPoint);
 
-                Vector3 newPos = Vector3.Lerp(player.transform.position, firstPoint, transitionSpeed * Time.deltaTime * 2);
+                Vector3 newPos = Vector3.Lerp(player.transform.position, firstPoint, transitionSpeed * Time.deltaTime * 3);
                 player.transform.position = newPos;
 
                 float dir = bossDoor.transform.position.x - player.transform.position.x;
@@ -344,33 +350,11 @@ public class ArenaManager : MonoBehaviour
 
     public IEnumerator CutScene(float time)
     {
+        LoopManager.Instance.actualHealth = player.GetComponent<Health>().health;
         darkScreen.SetActive(true);
         yield return new WaitForSeconds(time);
         darkScreen.SetActive(false);
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-    }
-
-    public void Loop(float time)
-    {
-        Time.timeScale = 1;
-        StartCoroutine(CutScene(time));
-        //transitionObject.defeat = true;
-        SceneManager.LoadScene("Level", LoadSceneMode.Single);
-    }
-
-    public void ReturnToStart(float time)
-    {
-        Time.timeScale = 1;
-        StartCoroutine(CutScene(time));
-        //transitionObject.defeat = true;
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
-    }
-
-    public void NewRun()
-    {
-        Time.timeScale = 1;
-        StartCoroutine(CutScene(1));
-        //transitionObject.defeat = true;
     }
 
     public void StopTime()

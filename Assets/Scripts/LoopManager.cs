@@ -29,6 +29,7 @@ public class LoopManager : MonoBehaviour
     }
     List<SpellData> lastLoopSpells;
 
+    public float actualHealth;
     public int maxHealth;
     public int loops;
 
@@ -71,7 +72,7 @@ public class LoopManager : MonoBehaviour
         maxHealth = Mathf.Max(maxHealth, 3);
 
         Health playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<Health>();
-        playerHealth.health = Mathf.Min(playerHealth.health, maxHealth);
+        playerHealth.health = Mathf.Min(actualHealth, maxHealth);
         playerHealth.maxHealth = maxHealth;
     }
 
