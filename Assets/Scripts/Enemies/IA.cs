@@ -13,7 +13,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
     public float maxSpeedChange = 100;
     Vector3 targetPosition;
     Vector2 desiredVelocity;
-    NavMeshPath path;
+    UnityEngine.AI.NavMeshPath path;
     Rigidbody2D body;
 
     //movespeed Bonus
@@ -50,7 +50,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
 
     private void Start()
     {
-        path = new NavMeshPath();
+        path = new UnityEngine.AI.NavMeshPath();
         corners = new Vector3[10];
 
         characterAnimations = GetComponentInChildren<CharacterAnimations>();
@@ -214,7 +214,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
 
     void UpdatePath()
     {
-        NavMesh.CalculatePath(transform.position, targetPosition, NavMesh.AllAreas, path);
+        UnityEngine.AI.NavMesh.CalculatePath(transform.position, targetPosition, UnityEngine.AI.NavMesh.AllAreas, path);
     }
 
     public void ApplyKnockback(Vector2 direction, float amount)

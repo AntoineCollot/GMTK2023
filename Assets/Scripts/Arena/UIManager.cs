@@ -174,9 +174,12 @@ public class UIManager : MonoBehaviour
         int life = Mathf.FloorToInt(PlayerSpells.Instance.GetComponent<Health>().health);
         for (int i = 0; i < life; i++)
         {
-            if (FullHearts[i].GetComponent<Image>().sprite == heartStates[1])
+            if (life < maxHealth - 1)
             {
-                FullHearts[i].GetComponent<Animator>().SetTrigger("Heal");
+                if (FullHearts[i].GetComponent<Image>().sprite == heartStates[1])
+                {
+                    FullHearts[i].GetComponent<Animator>().SetTrigger("Heal");
+                }
             }
         }
     }
