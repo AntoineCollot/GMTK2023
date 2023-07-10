@@ -30,6 +30,11 @@ public class CharacterAnimations : MonoBehaviour
         moveSpeedHash = Animator.StringToHash("MoveSpeed");
     }
 
+    public void OnEnnemyHit()
+    {
+        anim.SetTrigger("IsHit");
+    }
+
     private void OnDie()
     {
         anim.SetBool("IsDead", true);

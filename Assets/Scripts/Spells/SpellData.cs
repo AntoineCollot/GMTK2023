@@ -7,7 +7,7 @@ using UnityEngine;
 public struct SpellData
 {
     public const float HEAL_PER_DAMAGE = 0.5f;
-    public const float MOVE_SPEED_BONUS_DURATION = 1;
+    public const float MOVE_SPEED_BONUS_DURATION = 3;
     public const float MOVE_SPEED_BONUS_MIN = 1.25f;
     public const float MOVE_SPEED_BONUS_MAX = 3f;
     public const float COOLDOWN_REDUCTION_RATIO = 0.1f;

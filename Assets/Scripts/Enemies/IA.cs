@@ -54,6 +54,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
         corners = new Vector3[10];
 
         characterAnimations = GetComponentInChildren<CharacterAnimations>();
+
         isCastingState = new CompositeState();
         health = GetComponent<Health>();
         health.onDie.AddListener(OnDie);
@@ -63,9 +64,9 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
 
     private void Update()
     {
-        AIBehaviourUpdate();
+            AIBehaviourUpdate();
 
-        ComputeDesiredVelocity();
+            ComputeDesiredVelocity();
     }
 
     private void FixedUpdate()
@@ -252,6 +253,7 @@ public class IA : MonoBehaviour, IKnockbackable, IMoveSpeedBonusable, IAnimable,
 
     void OnHitCallback(Health hitHealth, SpellData data)
     {
+        Debug.Log("hit");
         float damages = data.damages;
         if (data.type == SpellType.Laser)
             damages *= 1 / SpellInstanceLaser.LASER_HIT_COUNT;

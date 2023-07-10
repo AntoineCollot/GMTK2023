@@ -94,7 +94,7 @@ public class SpellGenerator : MonoBehaviour
     IEnumerator SpellDischarge(Vector2 position, ICastSpell source, Vector2 direction, SpellData data, Action<Health, SpellData> hitCallback)
     {
         yield return new WaitForSeconds(0.2f);
-
+        
         float knockback = 0;
         if(data.knockback > 0)
         {

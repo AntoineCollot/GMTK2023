@@ -52,6 +52,8 @@ public class UIManager : MonoBehaviour
         {
             firstPhrase.SetActive(true);
         }
+
+        CheckHealth();
     }
 
     void UpdateSprites()
