@@ -38,16 +38,16 @@ public struct SpellData
 
     public void ApplyUpgrades(in SpellUpgradeData data)
     {
-        heal = heal.AddOrMultiply(data.heal);
-        movespeedBonus = movespeedBonus.AddOrMultiply(data.movespeedBonus);
+        heal += heal.AddOrMultiply(data.heal);
+        movespeedBonus += movespeedBonus.AddOrMultiply(data.movespeedBonus);
 
-        repeat = repeat.AddOrMultiply(data.repeat);
-        discharge = discharge.AddOrMultiply(data.discharge);
-        cooldownReduction = cooldownReduction.AddOrMultiply(data.cooldownReduction);
+        repeat += repeat.AddOrMultiply(data.repeat);
+        discharge += discharge.AddOrMultiply(data.discharge);
+        cooldownReduction += cooldownReduction.AddOrMultiply(data.cooldownReduction);
 
-        damages = damages.AddOrMultiply(data.damages);
-        size = size.AddOrMultiply(data.size);
-        knockback = knockback.AddOrMultiply(data.knockback);
+        damages += damages.AddOrMultiply(data.damages);
+        size += size.AddOrMultiply(data.size);
+        knockback += knockback.AddOrMultiply(data.knockback);
     }
 }
 
