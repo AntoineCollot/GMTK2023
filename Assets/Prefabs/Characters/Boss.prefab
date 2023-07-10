@@ -262,6 +262,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 20
+  maxHealth: 0
+  invicibleTime: 0.1
   team: 1
   onDie:
     m_PersistentCalls:

@@ -158,7 +158,7 @@ public class UIManager : MonoBehaviour
     public void CheckHealth()
     {
         float hp = PlayerSpells.Instance.GetComponent<Health>().health;
-        int life = Mathf.FloorToInt(hp);
+        int life = Mathf.CeilToInt(hp);
         for (int i = maxHealth; i > life && i > 0; i--)
         {
             if (FullHearts[i - 1].GetComponent<Image>().sprite == heartStates[0])

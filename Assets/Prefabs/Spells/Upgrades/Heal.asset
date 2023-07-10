@@ -15,7 +15,7 @@ MonoBehaviour:
   icon: {fileID: -1345978586, guid: 6c75c9aac6633054dab62b6c246dbfbd, type: 3}
   description: Heal the caster for every ennemy hit.
   data:
-    heal: 3
+    heal: 1
     movespeedBonus: 0
     repeat: 0
     discharge: 0

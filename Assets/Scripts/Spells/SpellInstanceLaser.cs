@@ -12,7 +12,7 @@ public class SpellInstanceLaser : SpellInstance
     float laserLength;
 
     const float LASER_HIT_INTERVAL = 0.2f;
-    public const float LASER_HIT_COUNT = 3;
+    public const float LASER_HIT_COUNT = 1;
 
     public float LaserWidth => transform.localScale.y;
 
@@ -28,11 +28,13 @@ public class SpellInstanceLaser : SpellInstance
 
         //Raycast to check for obstacles
         laserLength = RaycastLaserLength();
+        float dataSize = data.size;
+        float laserWidth = 1 + (dataSize / 6);
 
         //Move the transform to set the visuals correctly
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.size = new Vector2(laserLength, 1);
-        anticipation.size = new Vector2(laserLength, 1);
+        spriteRenderer.size = new Vector2(1 + laserLength/2, laserWidth);
+        anticipation.size = new Vector2(1 + laserLength / 2, laserWidth);
         transform.right = direction;
     }
 

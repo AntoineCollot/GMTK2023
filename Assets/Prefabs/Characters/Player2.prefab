@@ -351,7 +351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spells:
-  - type: 2
+  - icon: {fileID: 0}
+    description: 
+    type: 2
     baseCooldown: 0
     baseProjectileSpeed: 5
     heal: 0
@@ -378,10 +380,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  maxHealth: 10
+  invicibleTime: 0.3
   team: 0
   onDie:
     m_PersistentCalls:
       m_Calls: []
   onHit:
+    m_PersistentCalls:
+      m_Calls: []
+  onHeal:
     m_PersistentCalls:
       m_Calls: []

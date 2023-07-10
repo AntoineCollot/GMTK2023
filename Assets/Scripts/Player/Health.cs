@@ -6,10 +6,12 @@ using UnityEngine.Events;
 public class Health : MonoBehaviour
 {
     public float health;
-    public int maxHealth;
+    public int maxHealth = 10;
     Material instancedMaterial;
     public bool isDead { get; private set; }
     public CompositeState isInvicibleState = new CompositeState();
+    private CompositeStateToken invincible = new CompositeStateToken();
+    public float invicibleTime;
 
     [Header("SFX")]
     public Source team;
@@ -21,6 +23,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         instancedMaterial = GetComponentInChildren<SpriteRenderer>().material;
+        isInvicibleState.Add(invincible);
     }
 
     public void Hit(float damages)
@@ -47,6 +50,15 @@ public class Health : MonoBehaviour
                 SFXManager.PlaySound(GlobalSFX.EnemyDamaged);
                 break;
         }
+
+        invincible.SetOn(true);
+        StartCoroutine(InvicibleTiming());
+    }
+
+    IEnumerator InvicibleTiming()
+    {
+        yield return new WaitForSeconds(invicibleTime);
+        invincible.SetOn(false);
     }
 
     public void Die()
